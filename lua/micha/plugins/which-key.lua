@@ -18,6 +18,7 @@ return {
     spec = {
       { "<leader>e", group = "Explorer" },
       { "<leader>f", group = "Find" },
+      { "<leader>h", group = "Hunk" },
       { "<leader>l", group = "LSP" },
       { "<leader>t", group = "Toggle" },
       { "<leader>x", group = "Trouble" },
