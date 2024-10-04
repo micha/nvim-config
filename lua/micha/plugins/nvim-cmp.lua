@@ -27,6 +27,7 @@ return {
 
     cmp.setup({
       completion = {
+        -- completeopt = "menu,menuone,preview,noselect",
         completeopt = "menu,menuone,preview,noselect",
       },
 
@@ -38,13 +39,13 @@ return {
 
       -- Key mappings
       mapping = cmp.mapping.preset.insert({
-        ["<Tab>"] = cmp.mapping.select_next_item(), -- next suggestion
-        ["<S-Tab>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+        ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+        ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-        ["<C-e>"] = cmp.mapping.abort(), -- close completion window
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-c>"] = cmp.mapping.abort(), -- close completion window
+        ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
 
       -- sources for autocompletion
