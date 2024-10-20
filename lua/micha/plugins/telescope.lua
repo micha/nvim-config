@@ -41,10 +41,18 @@ return {
         },
       },
 
+      pickers = {
+        buffers = {
+          select_current = true,
+          sort_lastused = true,
+        },
+      },
+
       defaults = {
         path_display = { "smart" },
         mappings = {
           i = {
+            ["<C-d>"] = actions.delete_buffer,
             ["<C-f>"] = actions.preview_scrolling_down,
             ["<C-b>"] = actions.preview_scrolling_up,
             ["<C-k>"] = actions.move_selection_previous, -- move to prev result

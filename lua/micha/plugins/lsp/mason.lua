@@ -28,7 +28,6 @@ return {
     mason_lspconfig.setup({
       -- list of servers for mason to install
       ensure_installed = {
-        -- "bashls",
         "cssls",
         "emmet_ls",
         "html",
@@ -41,11 +40,10 @@ return {
     mason_tool_installer.setup({
       ensure_installed = {
         "black", -- python formatter
-        "eslint_d", -- js/ts linter
+        -- "eslint_d", -- js/ts linter
         "isort", -- python formatter
         "prettier", -- prettier formatter
-        "pylint", -- python linter
-        "shellcheck", -- bash linter
+        "ruff", -- python linter
         "stylua", -- lua formatter
       },
     })
