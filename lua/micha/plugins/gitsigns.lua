@@ -51,8 +51,8 @@ return {
       map({ "o", "x" }, "<leader>hi", ":<C-U>Gitsigns select_hunk<CR>", "Select hunk")
 
       -- Toggles
-      map("n", "<leader>tb", gs.toggle_current_line_blame, "Toggle git blame line")
-      map("n", "<leader>tD", gs.toggle_current_line_blame, "Toggle git show deleted")
+      map("n", "<leader>gb", gs.toggle_current_line_blame, "Toggle git blame line")
+      map("n", "<leader>gD", gs.toggle_current_line_blame, "Toggle git show deleted")
     end,
   },
 }

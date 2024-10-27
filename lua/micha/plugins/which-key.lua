@@ -16,11 +16,13 @@ return {
 
     -- Key chains
     spec = {
+      { "<leader>d", group = "Debugger" },
       { "<leader>e", group = "Explorer" },
       { "<leader>f", group = "Find" },
+      { "<leader>g", group = "Git" },
       { "<leader>h", group = "Hunk" },
       { "<leader>l", group = "LSP" },
-      { "<leader>t", group = "Toggle" },
+      { "<leader>t", group = "Terminal" },
       { "<leader>x", group = "Trouble" },
     },
   },

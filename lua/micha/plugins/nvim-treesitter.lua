@@ -27,6 +27,7 @@ return {
     ensure_installed = {
       "bash",
       "c",
+      "clojure",
       "css",
       "dockerfile",
       "gitignore",

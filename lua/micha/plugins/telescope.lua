@@ -50,6 +50,7 @@ return {
 
       defaults = {
         path_display = { "smart" },
+        dynamic_preview_title = true,
         mappings = {
           i = {
             ["<C-d>"] = actions.delete_buffer,
@@ -77,6 +78,8 @@ return {
     vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Files in project" })
     vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
     vim.keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
+    vim.keymap.set("n", "<leader>fQ", "<cmd>Telescope quickfixhistory<cr>", { desc = "Quickfix history" })
+    vim.keymap.set("n", "<leader>fq", "<cmd>Telescope quickfix<cr>", { desc = "Quickfix" })
     vim.keymap.set("n", "<leader>fr", "<cmd>Telescope resume<cr>", { desc = "Resume search" })
     vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "String in project" })
     vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Todos" })
