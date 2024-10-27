@@ -39,6 +39,7 @@ return {
         require("FTerm").close()
       end,
       desc = "Close terminal",
+      mode = { "n", "t" },
     },
   },
 }
