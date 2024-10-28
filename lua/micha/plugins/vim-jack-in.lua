@@ -4,4 +4,7 @@ return {
     "tpope/vim-dispatch",
     "radenling/vim-dispatch-neovim",
   },
+  keys = {
+    { "<leader>tc", "<CMD>Clj<CR>", desc = "Start clojure REPL server" },
+  },
 }
