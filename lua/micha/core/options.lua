@@ -50,12 +50,13 @@ vim.opt.smartcase = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = "yes"
 
--- Decrease update time
-vim.opt.updatetime = 250
+-- Swap files
+-- vim.opt.updatetime = 250
+vim.opt.swapfile = false
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+-- vim.opt.timeoutlen = 300
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -85,3 +86,6 @@ vim.opt.background = "dark"
 
 -- Backspace behavior
 vim.opt.backspace = "indent,eol,start"
+
+-- Session config
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize"

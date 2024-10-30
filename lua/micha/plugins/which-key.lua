@@ -3,7 +3,7 @@ return {
   event = "VimEnter",
   init = function()
     vim.o.timeout = true
-    vim.o.timeoutlen = 250
+    vim.o.timeoutlen = 50
   end,
   opts = {
     -- your configuration comes here
@@ -22,6 +22,7 @@ return {
       { "<leader>g", group = "Git" },
       { "<leader>h", group = "Hunk" },
       { "<leader>l", group = "LSP" },
+      { "<leader>n", group = "Neorg" },
       { "<leader>t", group = "Terminal" },
       { "<leader>x", group = "Trouble" },
     },
