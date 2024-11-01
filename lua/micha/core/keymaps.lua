@@ -2,3 +2,6 @@ vim.keymap.set("n", "ZZ", "<CMD>qa<CR>", { desc = "Quit neovim", remap = false }
 vim.keymap.set("n", "Q", "<CMD>bd<CR>", { desc = "Close and delete buffer", remap = false })
 vim.keymap.set("n", "aj", "i<CR><ESC>", { desc = "Break line at cursor", remap = false })
 vim.keymap.set("n", "<C-c>", "<CMD>nohlsearch<CR>", { desc = "Toggle search highlight", remap = false })
+vim.keymap.set("n", "<C-t><C-l>", "<CMD>tabnext<CR>", { desc = "Next tab", remap = false })
+vim.keymap.set("n", "<C-t><C-h>", "<CMD>tabprevious<CR>", { desc = "Previous tab", remap = false })
+vim.keymap.set("n", "<C-t><C-c>", "<CMD>tabclose<CR>", { desc = "Close tab", remap = false })
