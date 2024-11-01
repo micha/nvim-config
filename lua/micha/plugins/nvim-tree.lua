@@ -13,6 +13,10 @@ return {
         width = 35,
         relativenumber = true,
       },
+      diagnostics = {
+        enable = true,
+        show_on_dirs = true,
+      },
       -- change folder arrow icons
       renderer = {
         indent_markers = {

@@ -17,7 +17,7 @@ return {
     },
     {
       "<C-t>",
-      '"xy<CR><CMD>lua require("FTerm").open()<CR><CMD>lua vim.fn.chansend(require("FTerm").get_job_id(), vim.fn.getreg("x").."\\n")<CR>',
+      '"xy<CR><CMD>lua require("FTerm").open()<CR><CMD>lua vim.fn.chansend(require("FTerm").get_job_id(), vim.fn.getreg("x"))<CR>',
       -- function()
       --   local ft = require("FTerm")
       --   local cmd = table.concat(vim.fn.getregion(vim.fn.getpos("'<"), vim.fn.getpos("'>")), "\n")

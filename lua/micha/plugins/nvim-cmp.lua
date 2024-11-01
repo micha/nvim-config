@@ -37,6 +37,11 @@ return {
         end,
       },
 
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+      },
+
       -- Key mappings
       mapping = cmp.mapping.preset.insert({
         ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
