@@ -18,7 +18,14 @@ return {
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "vim.fn.reg_recording()" },
-        lualine_c = { "filename" },
+        lualine_c = {
+          {
+            "filename",
+            newfile_status = true,
+            path = 1,
+            shorting_target = 40,
+          },
+        },
         lualine_x = {
           "require('lsp-status').status()",
           "encoding",
@@ -33,6 +40,21 @@ return {
         },
         lualine_y = { "progress" },
         lualine_z = { "location" },
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {
+          {
+            "filename",
+            newfile_status = true,
+            path = 1,
+            shorting_target = 40,
+          },
+        },
+        lualine_x = { "location" },
+        lualine_y = {},
+        lualine_z = {},
       },
     })
   end,
