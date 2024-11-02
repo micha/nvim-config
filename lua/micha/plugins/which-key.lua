@@ -3,7 +3,7 @@ return {
   event = "VimEnter",
   init = function()
     vim.o.timeout = true
-    vim.o.timeoutlen = 50
+    vim.o.timeoutlen = 500
   end,
   opts = {
     -- your configuration comes here
