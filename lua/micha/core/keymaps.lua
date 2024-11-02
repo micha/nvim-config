@@ -4,4 +4,5 @@ vim.keymap.set("n", "aj", "i<CR><ESC>", { desc = "Break line at cursor", remap =
 vim.keymap.set("n", "<C-c>", "<CMD>nohlsearch<CR><CMD>NoiceDismiss<CR>", { desc = "Toggle search highlight", remap = false })
 vim.keymap.set("n", "<C-t><C-l>", "<CMD>tabnext<CR>", { desc = "Next tab", remap = false })
 vim.keymap.set("n", "<C-t><C-h>", "<CMD>tabprevious<CR>", { desc = "Previous tab", remap = false })
+vim.keymap.set("n", "<C-t><C-n>", "<CMD>tabnew<CR>", { desc = "New tab", remap = false })
 vim.keymap.set("n", "<C-t><C-c>", "<CMD>tabclose<CR>", { desc = "Close tab", remap = false })
