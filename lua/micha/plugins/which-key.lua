@@ -22,7 +22,7 @@ return {
       { "<leader>g", group = "Git" },
       { "<leader>h", group = "Hunk" },
       { "<leader>l", group = "LSP" },
-      { "<leader>n", group = "Neorg" },
+      { "<leader>n", group = "Neorg/Noice" },
       { "<leader>t", group = "Terminal" },
       { "<leader>x", group = "Trouble" },
     },

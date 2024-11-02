@@ -14,6 +14,10 @@ return {
   },
   config = function()
     require("noice").setup({
+      -- cmdline = {
+      --   view = "cmdline",
+      -- },
+
       lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         override = {
@@ -22,6 +26,7 @@ return {
           ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
         },
       },
+
       -- you can enable a preset for easier configuration
       presets = {
         bottom_search = true, -- use a classic bottom cmdline for search
@@ -32,4 +37,8 @@ return {
       },
     })
   end,
+
+  keys = {
+    { "<leader>nl", "<CMD>NoiceLast<CR>", desc = "Noice last" },
+  },
 }

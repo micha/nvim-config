@@ -11,6 +11,7 @@ return {
     "nvim-telescope/telescope-ui-select.nvim",
   },
   config = function()
+    local u = require("micha.util")
     local telescope = require("telescope")
     local actions = require("telescope.actions")
     local transform_mod = require("telescope.actions.mt").transform_mod
@@ -23,18 +24,33 @@ return {
       open_trouble_qflist = function(prompt_bufnr)
         trouble.toggle("quickfix")
       end,
+
+      select_all_hidden = function(prompt_bufnr)
+        local action_state = require("telescope.actions.state")
+        local action_utils = require("telescope.actions.utils")
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
+        local orig_row = current_picker:get_selection_row()
+
+        action_utils.map_entries(prompt_bufnr, function(entry, index, row)
+          if u.buf_is_hidden(entry.bufnr) then
+            current_picker:set_selection(row)
+            actions.add_selection(prompt_bufnr)
+          end
+        end)
+
+        current_picker:set_selection(orig_row)
+      end,
+
+      delete_selected_buffers = function(prompt_bufnr)
+        local action_utils = require("telescope.actions.utils")
+
+        action_utils.map_selections(prompt_bufnr, function(entry, index)
+          vim.api.nvim_buf_delete(entry.bufnr, {})
+        end)
+      end,
     })
 
     telescope.setup({
-      -- You can put your default mappings / updates / etc. in here
-      --  All the info you're looking for is in `:help telescope.setup()`
-      --
-      -- defaults = {
-      --   mappings = {
-      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-      --   },
-      -- },
-      -- pickers = {}
       extensions = {
         ["ui-select"] = {
           require("telescope.themes").get_dropdown(),
@@ -45,6 +61,16 @@ return {
         buffers = {
           select_current = true,
           sort_lastused = true,
+          mappings = {
+            n = {
+              ["<C-h>"] = custom_actions.select_all_hidden,
+              ["<C-d>"] = actions.delete_buffer,
+            },
+            i = {
+              ["<C-h>"] = custom_actions.select_all_hidden,
+              ["<C-d>"] = actions.delete_buffer,
+            },
+          },
         },
       },
 
@@ -52,15 +78,24 @@ return {
         path_display = { "smart" },
         dynamic_preview_title = true,
         mappings = {
+          n = {
+            ["<C-a>"] = actions.select_all,
+            ["<C-u>"] = actions.toggle_all,
+            ["<C-f>"] = actions.preview_scrolling_down,
+            ["<C-b>"] = actions.preview_scrolling_up,
+            ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
+            ["<C-t>"] = actions.select_tab,
+          },
           i = {
-            ["<C-d>"] = actions.delete_buffer,
+            ["<C-a>"] = actions.select_all,
+            ["<C-u>"] = actions.toggle_all,
             ["<C-f>"] = actions.preview_scrolling_down,
             ["<C-b>"] = actions.preview_scrolling_up,
             ["<C-k>"] = actions.move_selection_previous, -- move to prev result
             ["<C-j>"] = actions.move_selection_next, -- move to next result
             ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
-            -- ["<C-t>"] = trouble_telescope.open,
             ["<C-t>"] = actions.select_tab,
+            -- ["<C-t>"] = trouble_telescope.open,
           },
         },
       },
@@ -91,7 +126,7 @@ return {
     vim.keymap.set("n", "<leader>/", function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
       builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-        winblend = 10,
+        -- winblend = 10,
         previewer = false,
       }))
     end, { desc = "Find in current buffer" })
