@@ -17,7 +17,7 @@ return {
     },
     {
       "<C-t>",
-      '"xy<CR><CMD>lua require("FTerm").open()<CR><CMD>lua vim.fn.chansend(require("FTerm").get_job_id(), vim.fn.getreg("x"))<CR>',
+      '"xy<CR><CMD>lua require("FTerm").open()<CR><CMD>lua vim.fn.chansend(require("FTerm").get_job_id(), string.gsub(vim.fn.getreg("x"), "%s*$", "").."\\n")<CR>',
       -- function()
       --   local ft = require("FTerm")
       --   local cmd = table.concat(vim.fn.getregion(vim.fn.getpos("'<"), vim.fn.getpos("'>")), "\n")
@@ -28,13 +28,7 @@ return {
       desc = "Send selection",
     },
     {
-      "<ESC>",
-      "<C-\\><C-n>",
-      mode = { "t" },
-      desc = "Leave terminal insert mode",
-    },
-    {
-      "<ESC><ESC>",
+      "<C-\\><C-c>",
       function()
         require("FTerm").close()
       end,
