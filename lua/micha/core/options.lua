@@ -89,13 +89,3 @@ vim.opt.backspace = "indent,eol,start"
 
 -- Session config
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize"
-
-vim.diagnostic.config({
-  virtual_text = false,
-  float = {
-    header = false,
-    source = true,
-    border = "single",
-    focusable = true,
-  },
-})

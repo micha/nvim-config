@@ -116,7 +116,21 @@ return {
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+      vim.diagnostic.config({
+        virtual_text = false,
+        float = {
+          header = false,
+          source = true,
+          border = "rounded",
+          focusable = true,
+        },
+      })
     end
+
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+
+    vim.lsp.handlers["textDocument/signatureHelp"] =
+      vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
     mason_lspconfig.setup_handlers({
       -- default handler for installed servers
