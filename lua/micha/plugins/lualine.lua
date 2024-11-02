@@ -26,7 +26,10 @@ return {
             "fileformat",
             symbols = { dos = "dos", unix = "unix", mac = "mac" },
           },
-          "filetype",
+          {
+            "filetype",
+            colored = false,
+          },
         },
         lualine_y = { "progress" },
         lualine_z = { "location" },
