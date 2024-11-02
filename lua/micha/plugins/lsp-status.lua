@@ -5,7 +5,7 @@ return {
     lsp_status.register_progress()
     lsp_status.config({
       indicator_separator = "",
-      status_symbol = "LSP",
+      status_symbol = "",
       indicator_errors = "E",
       indicator_warnings = "W",
       indicator_info = "i",
