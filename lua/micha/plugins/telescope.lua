@@ -9,6 +9,7 @@ return {
     "folke/todo-comments.nvim",
     "folke/trouble.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
+    "AckslD/nvim-neoclip.lua",
   },
   config = function()
     local u = require("micha.util")
@@ -104,6 +105,7 @@ return {
     -- Enable Telescope extensions if they are installed
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "ui-select")
+    pcall(require("telescope").load_extension, "neoclip")
 
     -- See `:help telescope.builtin`
     local builtin = require("telescope.builtin")
@@ -119,6 +121,8 @@ return {
     vim.keymap.set("n", "<leader>fr", "<cmd>Telescope resume<cr>", { desc = "Resume search" })
     vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "String in project" })
     vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Todos" })
+    vim.keymap.set("n", "<leader>fp", "<cmd>Telescope neoclip<cr>", { desc = "Yanks" })
+    vim.keymap.set("n", "<leader>fm", "<cmd>Telescope macroscope<cr>", { desc = "Macros" })
     vim.keymap.set("n", "<leader>f.", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
     vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 
