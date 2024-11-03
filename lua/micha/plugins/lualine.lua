@@ -40,7 +40,15 @@ return {
           },
         },
         lualine_x = {
-          neotest_status,
+          {
+            neotest_status,
+            ---@diagnostic disable-next-line: unused-local
+            color = function(section)
+              if string.match(neotest_status() or "", "/[1-9]") then
+                return { fg = "red" }
+              end
+            end,
+          },
           "require('lsp-status').status()",
           "encoding",
           {
