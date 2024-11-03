@@ -2,14 +2,27 @@ return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
+    --- Returns a string like "10/2 23/0 ..." of status counts (passed/failed),
+    --- one for each neotest adapter currently loaded.
+    local function neotest_status()
+      local result = {}
+      for _, id in ipairs(require("neotest").state.adapter_ids()) do
+        local status = require("neotest").state.status_counts(id)
+        if status ~= nil then
+          table.insert(result, status.passed .. "/" .. status.failed)
+        end
+      end
+      return table.concat(result, " ")
+    end
+
     require("lualine").setup({
       options = {
         theme = "auto",
         section_separators = "",
         component_separators = "",
-        ignore_focus = { "NvimTree" },
+        ignore_focus = { "NvimTree", "neotest-summary" },
         disabled_filetypes = {
-          statusline = { "NvimTree" },
+          statusline = { "NvimTree", "neotest-summary" },
         },
         refresh = {
           statusline = 100,
@@ -27,6 +40,7 @@ return {
           },
         },
         lualine_x = {
+          neotest_status,
           "require('lsp-status').status()",
           "encoding",
           {

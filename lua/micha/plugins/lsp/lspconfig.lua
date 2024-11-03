@@ -161,17 +161,29 @@ return {
       --     filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
       --   })
       -- end,
-      -- ["pyright"] = function()
-      --   lspconfig["pyright"].setup({
-      --     capabilities = capabilities,
-      --     filetypes = { },
-      --   })
       -- end,
       -- ["emmet_ls"] = function()
       --   -- configure emmet language server
       --   lspconfig["emmet_ls"].setup({
       --     capabilities = capabilities,
       --     filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+      --   })
+      -- end,
+      -- ["pyright"] = function()
+      --   lspconfig["pyright"].setup({
+      --     capabilities = capabilities,
+      --     cmd = { "pyright-langserver", "--stdio" },
+      --     filetypes = { "python" },
+      --   })
+      -- end,
+      -- ["pylsp"] = function()
+      --   lspconfig["pylsp"].setup({
+      --     capabilities = capabilities,
+      --     settings = {
+      --       python = {
+      --         skip_token_initialization = true, 
+      --       }
+      --     }
       --   })
       -- end,
       ["lua_ls"] = function()

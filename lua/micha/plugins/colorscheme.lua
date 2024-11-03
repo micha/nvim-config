@@ -2,6 +2,7 @@ return {
   "folke/tokyonight.nvim",
   priority = 1000,
   config = function()
+    -- local transparent = true
     -- local bg = "#011628"
     -- local bg_dark = "#011423"
     -- local bg_highlight = "#143652"
@@ -14,19 +15,19 @@ return {
 
     require("tokyonight").setup({
       style = "night",
-      -- styles = {
-      --   sidebars = transparent and "transparent" or "dark",
-      --   floats = transparent and "transparent" or "dark",
-      -- },
-      -- on_colors = function(colors)
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+      on_colors = function(colors)
+        colors.bg_float = colors.none
+        colors.bg_sidebar = colors.none
+        colors.bg_statusline = colors.none
       --   colors.bg = bg
       --   colors.bg_dark = transparent and colors.none or bg_dark
-      --   colors.bg_float = transparent and colors.none or bg_dark
       --   colors.bg_highlight = bg_highlight
       --   colors.bg_popup = bg_dark
       --   colors.bg_search = bg_search
-      --   colors.bg_sidebar = transparent and colors.none or bg_dark
-      --   colors.bg_statusline = transparent and colors.none or bg_dark
       --   colors.bg_visual = bg_visual
       --   colors.border = border
       --   colors.fg = fg
@@ -34,10 +35,11 @@ return {
       --   colors.fg_float = fg
       --   colors.fg_gutter = fg_gutter
       --   colors.fg_sidebar = fg_dark
-      -- end,
+      end,
     })
 
     vim.cmd("colorscheme tokyonight")
+    vim.api.nvim_set_hl(0, "ColorColumn", { link = "SignColumn" })
   end,
 }
 

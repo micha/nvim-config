@@ -35,16 +35,38 @@ return {
 
       -- you can enable a preset for easier configuration
       presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
+        bottom_search = false, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
         inc_rename = false, -- enables an input dialog for inc-rename.nvim
         lsp_doc_border = true, -- add a border to hover docs and signature help
       },
+
+      routes = {
+        -- suppress "file written" messages
+        {
+          filter = {
+            event = "msg_show",
+            kind = "",
+            find = "written",
+          },
+          opts = { skip = true },
+        },
+        {
+          filter = {
+            event = "msg_show",
+            kind = "",
+            find = "No tests found",
+          },
+          opts = { skip = true },
+        },
+      },
     })
   end,
 
   keys = {
+    { "<leader>na", "<CMD>NoiceAll<CR>", desc = "Noice all" },
     { "<leader>nl", "<CMD>NoiceLast<CR>", desc = "Noice last" },
+    { "<leader>np", "<CMD>NoicePick<CR>", desc = "Noice pick" },
   },
 }

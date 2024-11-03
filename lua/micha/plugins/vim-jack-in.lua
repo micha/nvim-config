@@ -5,6 +5,6 @@ return {
     "radenling/vim-dispatch-neovim",
   },
   keys = {
-    { "<leader>tc", "<CMD>Clj<CR>", desc = "Start clojure REPL server" },
+    { "<leader>Tc", "<CMD>Clj<CR>", desc = "Start clojure REPL server" },
   },
 }

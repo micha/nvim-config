@@ -33,7 +33,7 @@ return {
         "emmet_ls",
         "html",
         "lua_ls",
-        "pyright",
+        "pylsp",
         "ts_ls",
       },
     })

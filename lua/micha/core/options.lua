@@ -88,4 +88,4 @@ vim.opt.background = "dark"
 vim.opt.backspace = "indent,eol,start"
 
 -- Session config
-vim.opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize"
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

@@ -2,14 +2,14 @@ return {
   "numToStr/FTerm.nvim",
   keys = {
     {
-      "<leader>tt",
+      "<leader>Tt",
       function()
         require("FTerm").toggle()
       end,
       desc = "Toggle terminal",
     },
     {
-      "<leader>ts",
+      "<leader>Ts",
       function()
         ---@diagnostic disable-next-line: missing-fields
         require("FTerm").scratch({ cmd = "bash" })

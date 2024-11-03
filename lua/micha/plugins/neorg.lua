@@ -49,6 +49,6 @@ return {
     })
   end,
   keys = {
-    { "<leader>nn", "<CMD>Neorg index<CR>", desc = "Neorg index" },
+    { "<leader>N", "<CMD>Neorg index<CR>", desc = "Neorg index" },
   },
 }
