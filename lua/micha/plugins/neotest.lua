@@ -13,6 +13,8 @@ return {
       adapters = {
         require("neotest-python")({
           dap = { justMyCode = true },
+          runner = "pytest",
+          args = { "-s" },
         }),
         require("neotest-plenary"),
         require("neotest-vim-test")({
@@ -22,6 +24,10 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       summary = {
         open = "botright vsplit | vertical resize 35",
+      },
+      ---@diagnostic disable-next-line: missing-fields
+      output = {
+        open_on_run = false,
       },
     })
   end,
