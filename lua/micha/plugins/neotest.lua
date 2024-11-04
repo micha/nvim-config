@@ -33,6 +33,20 @@ return {
   end,
   keys = {
     {
+      "<leader>tc",
+      function()
+        require("neotest").output_panel.clear()
+      end,
+      desc = "Clear output panel"
+    },
+    {
+      "<leader>tO",
+      function()
+        require("neotest").output_panel.toggle()
+      end,
+      desc = "Toggle output panel",
+    },
+    {
       "<leader>to",
       function()
         require("neotest").output.open({ enter = true, auto_close = true, last_run = true })
@@ -40,7 +54,7 @@ return {
       desc = "Toggle output",
     },
     { "<leader>tr", "<CMD>Neotest run<CR>", desc = "Run nearest" },
-    { "<leader>tt", "<CMD>Neotest summary<CR>", desc = "Toggle summary panel" },
+    { "<leader>ts", "<CMD>Neotest summary<CR>", desc = "Toggle summary panel" },
     {
       "<leader>tw",
       function()
