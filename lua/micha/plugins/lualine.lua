@@ -42,8 +42,7 @@ return {
         lualine_x = {
           {
             neotest_status,
-            ---@diagnostic disable-next-line: unused-local
-            color = function(section)
+            color = function(section) ---@diagnostic disable-line: unused-local
               if string.match(neotest_status() or "", "/[1-9]") then
                 return { fg = "red" }
               end

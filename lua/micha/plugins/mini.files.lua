@@ -42,35 +42,44 @@ return {
   },
   keys = {
     {
-      "<leader>e",
+      "<leader>E",
       function()
         require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
       end,
-      desc = "Open mini.files (Directory of Current File)",
+      desc = "Mini.files (Current File)",
     },
     {
-      "<leader>E",
+      "<leader>eE",
       function()
         require("mini.files").open(vim.uv.cwd(), true)
       end,
-      desc = "Files",
+      desc = "Mini.files (cwd)",
     },
   },
   config = function(_, opts)
+    vim.g.micha_show_dotfiles = false
+
     require("mini.files").setup(opts)
 
-    local show_dotfiles = true
-    local filter_show = function(fs_entry)
+    local filter_show = function(fs_entry) ---@diagnostic disable-line: unused-local
       return true
     end
+
     local filter_hide = function(fs_entry)
       return not vim.startswith(fs_entry.name, ".")
     end
 
-    local toggle_dotfiles = function()
-      show_dotfiles = not show_dotfiles
-      local new_filter = show_dotfiles and filter_show or filter_hide
+    local current_filter = function()
+      return vim.g.micha_show_dotfiles and filter_show or filter_hide
+    end
+
+    local set_filter = function(new_filter)
       require("mini.files").refresh({ content = { filter = new_filter } })
+    end
+
+    local toggle_dotfiles = function()
+      vim.g.micha_show_dotfiles = not vim.g.micha_show_dotfiles
+      set_filter(current_filter())
     end
 
     local map_split = function(buf_id, lhs, direction, close_on_file)
@@ -300,6 +309,7 @@ return {
       -- pattern = { "minifiles" },
       callback = function()
         local bufnr = vim.api.nvim_get_current_buf()
+        set_filter(current_filter())
         updateGitStatus(bufnr)
       end,
     })
