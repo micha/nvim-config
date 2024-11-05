@@ -3,7 +3,7 @@ return {
   event = "VimEnter",
   init = function()
     vim.o.timeout = true
-    vim.o.timeoutlen = 100
+    vim.o.timeoutlen = 250
   end,
   opts = {
     icons = {
