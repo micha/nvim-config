@@ -49,6 +49,21 @@ return {
           vim.api.nvim_buf_delete(entry.bufnr, {})
         end)
       end,
+
+      goto_buffers = function(prompt_bufnr)
+        local prompt = require("telescope.actions.state").get_current_line()
+        require("telescope.builtin").buffers({ default_text = prompt })
+      end,
+
+      goto_find_files = function(prompt_bufnr)
+        local prompt = require("telescope.actions.state").get_current_line()
+        require("telescope.builtin").find_files({ default_text = prompt })
+      end,
+
+      goto_live_grep = function(prompt_bufnr)
+        local prompt = require("telescope.actions.state").get_current_line()
+        require("telescope.builtin").live_grep({ default_text = prompt })
+      end,
     })
 
     telescope.setup({
@@ -86,6 +101,9 @@ return {
             ["<C-b>"] = actions.preview_scrolling_up,
             ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
             ["<C-t>"] = actions.select_tab,
+            ["<localleader>b"] = custom_actions.goto_buffers,
+            ["<localleader>f"] = custom_actions.goto_find_files,
+            ["<localleader>s"] = custom_actions.goto_live_grep,
           },
           i = {
             ["<C-a>"] = actions.select_all,
@@ -96,6 +114,9 @@ return {
             ["<C-j>"] = actions.move_selection_next, -- move to next result
             ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
             ["<C-t>"] = actions.select_tab,
+            ["<localleader>b"] = custom_actions.goto_buffers,
+            ["<localleader>f"] = custom_actions.goto_find_files,
+            ["<localleader>s"] = custom_actions.goto_live_grep,
             -- ["<C-t>"] = trouble_telescope.open,
           },
         },
