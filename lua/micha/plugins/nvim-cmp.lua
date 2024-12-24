@@ -44,13 +44,23 @@ return {
 
       -- Key mappings
       mapping = cmp.mapping.preset.insert({
-        ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-        ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+        ["<Tab>"] = cmp.mapping.select_next_item(), -- next suggestion
+        ["<S-Tab>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+        ["<C-c>"] = cmp.mapping.abort(), -- close completion window
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-l>"] = cmp.mapping(function()
+          if luasnip.expand_or_locally_jumpable() then
+            luasnip.expand_or_jump()
+          end
+        end, { "i", "s" }),
+        ["<C-h>"] = cmp.mapping(function()
+          if luasnip.locally_jumpable(-1) then
+            luasnip.jump(-1)
+          end
+        end, { "i", "s" }),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-        ["<C-c>"] = cmp.mapping.abort(), -- close completion window
-        ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
 
       -- sources for autocompletion
@@ -60,9 +70,11 @@ return {
         { name = "luasnip" }, -- snippets
         { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
+        { name = "system" },
       }),
 
       -- configure lspkind for vs-code like pictograms in completion menu
+      ---@diagnostic disable-next-line: missing-fields
       formatting = {
         format = lspkind.cmp_format({
           maxwidth = 50,
