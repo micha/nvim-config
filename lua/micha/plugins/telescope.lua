@@ -64,6 +64,10 @@ return {
         local prompt = require("telescope.actions.state").get_current_line()
         require("telescope.builtin").live_grep({ default_text = prompt })
       end,
+
+      doit = function(prompt_bufnr)
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
+      end,
     })
 
     telescope.setup({
@@ -71,6 +75,7 @@ return {
         ["ui-select"] = {
           require("telescope.themes").get_dropdown(),
         },
+        fzf = {},
       },
 
       pickers = {
@@ -143,7 +148,9 @@ return {
     vim.keymap.set("n", "<leader>fr", "<cmd>Telescope resume<cr>", { desc = "Resume search" })
     vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "String in project" })
     vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Todos" })
-    vim.keymap.set("n", "<leader>fp", "<cmd>Telescope neoclip<cr>", { desc = "Yanks" })
+    vim.keymap.set("n", "<leader>fp", function()
+      builtin.find_files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") })
+    end, { desc = "Neovim plugins" })
     vim.keymap.set("n", "<leader>fm", "<cmd>Telescope macroscope<cr>", { desc = "Macros" })
     vim.keymap.set("n", "<leader>f.", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
     vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
