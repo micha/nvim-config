@@ -89,3 +89,12 @@ vim.opt.backspace = "indent,eol,start"
 
 -- Session config
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+-- Highlight yanked text when yanking
+vim.api.nvim_create_autocmd("TextYankPost", {
+  desc = "Highlight yanked text",
+  group = vim.api.nvim_create_augroup("micha-highlight-on-yank", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
