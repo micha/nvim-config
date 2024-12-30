@@ -71,6 +71,7 @@ return {
         { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
         { name = "system" },
+        { name = 'render-markdown' }, -- markdown callouts and checkboxes
       }),
 
       -- configure lspkind for vs-code like pictograms in completion menu

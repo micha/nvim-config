@@ -20,7 +20,10 @@ return {
       { "<leader>n", group = "Noice" },
       { "<leader>t", group = "Test"},
       { "<leader>T", group = "Terminal" },
+      { "<leader>w", group = "Focus" },
       { "<leader>x", group = "Trouble" },
+      { "[o", group = "Enable" },
+      { "]o", group = "Disable" },
     },
   },
 }
