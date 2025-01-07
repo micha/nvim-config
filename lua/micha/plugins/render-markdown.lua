@@ -27,5 +27,22 @@ return {
     --   },
     -- },
     -- -------------->8-----------------
+    -- injections = {
+    --   python = {
+    --     enabled = true,
+    --     query = [[
+    --       ((function_definition
+    --         body: (block
+    --           .
+    --           (expression_statement
+    --             (string
+    --               (string_content) @injection.content))))
+    --         (#set! injection.language "markdown"))
+    --     ]],
+    --   },
+    -- },
   },
+  -- keys = {
+  --   { "<localleader><localleader>", "<CMD>RenderMarkdown toggle<CR>", desc = "Toggle markdown rendering" },
+  -- },
 }

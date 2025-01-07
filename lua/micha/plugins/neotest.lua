@@ -14,7 +14,7 @@ return {
         require("neotest-python")({
           dap = { justMyCode = true },
           runner = "pytest",
-          args = { "-s" },
+          args = { "-s", "-x" },
         }),
         require("neotest-plenary"),
         require("neotest-vim-test")({
