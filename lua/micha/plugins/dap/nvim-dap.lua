@@ -16,6 +16,16 @@ return {
   keys = function(_, keys)
     local dap = require("dap")
     local dapui = require("dapui")
+
+    local input = function(prompt)
+      local result = vim.fn.input(prompt)
+      if result == "" then
+        return nil
+      else
+        return result
+      end
+    end
+
     return {
       { "<leader>dd", dapui.toggle, desc = "Toggle UI" },
       { "<leader>ds", dap.status, desc = "Toggle UI" },
@@ -23,7 +33,7 @@ return {
       {
         "<leader>dbB",
         function()
-          dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+          dap.set_breakpoint(input("Condition: "), input("Hit: "), input("Log: "))
         end,
         desc = "Set",
       },
