@@ -14,7 +14,7 @@ return {
         require("neotest-python")({
           dap = { justMyCode = true },
           runner = "pytest",
-          args = { "-s", "-x" },
+          args = { "-s" },
         }),
         require("neotest-plenary"),
         require("neotest-vim-test")({
@@ -37,7 +37,7 @@ return {
       function()
         require("neotest").output_panel.clear()
       end,
-      desc = "Clear output panel"
+      desc = "Clear output panel",
     },
     {
       "<leader>tO",
@@ -53,10 +53,85 @@ return {
       end,
       desc = "Toggle output",
     },
-    { "<leader>tr", "<CMD>Neotest run<CR>", desc = "Run nearest" },
-    { "<leader>ts", "<CMD>Neotest summary<CR>", desc = "Toggle summary panel" },
     {
-      "<leader>tw",
+      "<leader>tss",
+      function()
+        require("neotest").summary.toggle()
+      end,
+      desc = "Toggle",
+    },
+    {
+      "<leader>tsm",
+      function()
+        require("neotest").summary.run_marked()
+      end,
+      desc = "Run marked",
+    },
+    {
+      "<leader>tjn",
+      function()
+        require("neotest").jump.next()
+      end,
+      desc = "Next",
+    },
+    {
+      "<leader>tjp",
+      function()
+        require("neotest").jump.prev()
+      end,
+      desc = "Prev",
+    },
+    {
+      "<leader>tjN",
+      function()
+        require("neotest").jump.next({ status = "failed" })
+      end,
+      desc = "Next (failed)",
+    },
+    {
+      "<leader>tjP",
+      function()
+        require("neotest").jump.prev({ status = "failed" })
+      end,
+      desc = "Prev (failed)",
+    },
+    {
+      "<leader>tra",
+      function()
+        require("neotest").run.run({ suite = true, strategy = "dap" })
+      end,
+      desc = "All",
+    },
+    {
+      "<leader>trf",
+      function()
+        require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" })
+      end,
+      desc = "File",
+    },
+    {
+      "<leader>trl",
+      function()
+        require("neotest").run.run_last({ strategy = "dap" })
+      end,
+      desc = "Last",
+    },
+    {
+      "<leader>trr",
+      function()
+        require("neotest").run.run({ strategy = "dap" })
+      end,
+      desc = "Nearest",
+    },
+    {
+      "<leader>trs",
+      function()
+        require("neotest").run.stop({ interactive = true })
+      end,
+      desc = "Stop",
+    },
+    {
+      "<leader>tww",
       function()
         local path = nil
         if
@@ -72,7 +147,14 @@ return {
           end
         end
       end,
-      desc = "Toggle watch",
+      desc = "Toggle",
+    },
+    {
+      "<leader>tws",
+      function()
+        require("neotest").watch.stop()
+      end,
+      desc = "Stop",
     },
   },
 }
