@@ -33,20 +33,6 @@ return {
   end,
   keys = {
     {
-      "<leader>tc",
-      function()
-        require("neotest").output_panel.clear()
-      end,
-      desc = "Clear output panel",
-    },
-    {
-      "<leader>tO",
-      function()
-        require("neotest").output_panel.toggle()
-      end,
-      desc = "Toggle output panel",
-    },
-    {
       "<leader>to",
       function()
         require("neotest").output.open({ enter = true, auto_close = true, last_run = true })
@@ -54,72 +40,81 @@ return {
       desc = "Toggle output",
     },
     {
-      "<leader>tss",
+      "<leader>ts",
       function()
         require("neotest").summary.toggle()
       end,
-      desc = "Toggle",
+      desc = "Toggle summary",
     },
     {
-      "<leader>tsm",
+      "<leader>tm",
       function()
         require("neotest").summary.run_marked()
       end,
       desc = "Run marked",
     },
     {
-      "<leader>tjn",
+      "<leader>tt",
+      function()
+        require("neotest").run.run()
+      end,
+      desc = "Run nearest",
+    },
+    {
+      "<leader>t]",
       function()
         require("neotest").jump.next()
       end,
-      desc = "Next",
+      desc = "Next test",
     },
     {
-      "<leader>tjp",
+      "<leader>t[",
       function()
         require("neotest").jump.prev()
       end,
-      desc = "Prev",
+      desc = "Previous test",
     },
     {
-      "<leader>tjN",
+      "<leader>t}",
       function()
         require("neotest").jump.next({ status = "failed" })
       end,
-      desc = "Next (failed)",
+      desc = "Next failed test",
     },
     {
-      "<leader>tjP",
+      "<leader>t{",
       function()
         require("neotest").jump.prev({ status = "failed" })
       end,
-      desc = "Prev (failed)",
+      desc = "Previous failed test",
     },
+
     {
       "<leader>tra",
       function()
-        require("neotest").run.run({ suite = true, strategy = "dap" })
+        require("neotest").run.run({ suite = true })
       end,
       desc = "All",
     },
     {
       "<leader>trf",
       function()
-        require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" })
+        ---@diagnostic disable-next-line: missing-fields
+        require("neotest").run.run({ vim.fn.expand("%") })
       end,
       desc = "File",
     },
     {
       "<leader>trl",
       function()
-        require("neotest").run.run_last({ strategy = "dap" })
+        require("neotest").run.run_last()
       end,
       desc = "Last",
     },
     {
       "<leader>trr",
       function()
-        require("neotest").run.run({ strategy = "dap" })
+        require("neotest").run.run()
       end,
       desc = "Nearest",
     },
@@ -129,6 +124,34 @@ return {
         require("neotest").run.stop({ interactive = true })
       end,
       desc = "Stop",
+    },
+    {
+      "<leader>tda",
+      function()
+        require("neotest").run.run({ suite = true, strategy = "dap" })
+      end,
+      desc = "All",
+    },
+    {
+      "<leader>tdf",
+      function()
+        require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" })
+      end,
+      desc = "File",
+    },
+    {
+      "<leader>tdl",
+      function()
+        require("neotest").run.run_last({ strategy = "dap" })
+      end,
+      desc = "Last",
+    },
+    {
+      "<leader>tdd",
+      function()
+        require("neotest").run.run({ strategy = "dap" })
+      end,
+      desc = "Nearest",
     },
     {
       "<leader>tww",
