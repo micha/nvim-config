@@ -54,6 +54,21 @@ return {
       desc = "Run marked",
     },
     {
+      "<leader>ta",
+      function()
+        require("neotest").run.run({ suite = true })
+      end,
+      desc = "Run all",
+    },
+    {
+      "<leader>tf",
+      function()
+        ---@diagnostic disable-next-line: missing-fields
+        require("neotest").run.run({ vim.fn.expand("%") })
+      end,
+      desc = "Run file",
+    },
+    {
       "<leader>tt",
       function()
         require("neotest").run.run()
@@ -135,6 +150,7 @@ return {
     {
       "<leader>tdf",
       function()
+        ---@diagnostic disable-next-line: missing-fields
         require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" })
       end,
       desc = "File",
@@ -142,6 +158,7 @@ return {
     {
       "<leader>tdl",
       function()
+        ---@diagnostic disable-next-line: missing-fields
         require("neotest").run.run_last({ strategy = "dap" })
       end,
       desc = "Last",
@@ -149,6 +166,7 @@ return {
     {
       "<leader>tdd",
       function()
+        ---@diagnostic disable-next-line: missing-fields
         require("neotest").run.run({ strategy = "dap" })
       end,
       desc = "Nearest",
@@ -175,6 +193,7 @@ return {
     {
       "<leader>tws",
       function()
+        ---@diagnostic disable-next-line: missing-parameter
         require("neotest").watch.stop()
       end,
       desc = "Stop",
