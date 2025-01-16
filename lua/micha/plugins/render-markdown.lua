@@ -12,7 +12,7 @@ return {
     heading = {
       -- position = "inline",
       border = true,
-      border_virtual = true, -- extra vertical space around heading
+      -- border_virtual = true, -- extra vertical space around heading
       width = "full",
       -- left_pad = 0.5, -- centered
     },
