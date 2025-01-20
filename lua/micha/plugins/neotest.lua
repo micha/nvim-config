@@ -40,6 +40,13 @@ return {
       desc = "Toggle output",
     },
     {
+      "<leader>tO",
+      function()
+        require("neotest").output_panel.toggle({ enter = true, auto_close = true, last_run = true })
+      end,
+      desc = "Toggle output",
+    },
+    {
       "<leader>ts",
       function()
         require("neotest").summary.toggle()

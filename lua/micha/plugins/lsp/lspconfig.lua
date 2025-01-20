@@ -177,16 +177,21 @@ return {
       --     filetypes = { "python" },
       --   })
       -- end,
-      -- ["pylsp"] = function()
-      --   lspconfig["pylsp"].setup({
-      --     capabilities = capabilities,
-      --     settings = {
-      --       python = {
-      --         skip_token_initialization = true, 
-      --       }
-      --     }
-      --   })
-      -- end,
+      ["pylsp"] = function()
+        lspconfig["pylsp"].setup({
+          capabilities = capabilities,
+          settings = {
+            pylsp = {
+              plugins = {
+                pyflakes = { enabled = false },
+              },
+            },
+            -- python = {
+            --   skip_token_initialization = true,
+            -- },
+          },
+        })
+      end,
       ["lua_ls"] = function()
         -- configure lua server (with special settings)
         lspconfig["lua_ls"].setup({
