@@ -44,10 +44,10 @@ return {
 
       -- Key mappings
       mapping = cmp.mapping.preset.insert({
-        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+        ["<C-p>"] = cmp.mapping.complete(), -- show completion suggestions
         ["<Tab>"] = cmp.mapping.select_next_item(), -- next suggestion
         ["<S-Tab>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-        ["<C-c>"] = cmp.mapping.abort(), -- close completion window
+        ["<C-Space>"] = cmp.mapping.close(), -- close completion window
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<C-l>"] = cmp.mapping(function()
           if luasnip.expand_or_locally_jumpable() then
@@ -59,15 +59,17 @@ return {
             luasnip.jump(-1)
           end
         end, { "i", "s" }),
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-x>"] = cmp.mapping.abort(),
+        ["<C-e>"] = cmp.mapping.close_docs(),
+        ["<C-k>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-j>"] = cmp.mapping.scroll_docs(4),
       }),
 
       -- sources for autocompletion
       sources = cmp.config.sources({
         { name = "lazydev", group_index = 0 },
         { name = "nvim_lsp" },
-        { name = "luasnip" }, -- snippets
+        -- { name = "luasnip" }, -- snippets
         { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
         { name = "system" },
