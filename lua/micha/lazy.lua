@@ -20,11 +20,11 @@ require("lazy").setup({
   { import = "micha.plugins.lsp" },
   { import = "micha.plugins.dap" },
 }, {
-    checker = {
-      enabled = true,
-      notify = false,
-    },
-    change_detection = {
-      notify = false,
-    },
-  })
+  checker = {
+    enabled = true,
+    notify = false,
+  },
+  change_detection = {
+    notify = false,
+  },
+})
