@@ -47,8 +47,8 @@ return {
         ["<C-p>"] = cmp.mapping.complete(), -- show completion suggestions
         ["<Tab>"] = cmp.mapping.select_next_item(), -- next suggestion
         ["<S-Tab>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-        ["<C-Space>"] = cmp.mapping.close(), -- close completion window
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping.close(), -- close completion window
+        -- ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<C-l>"] = cmp.mapping(function()
           if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()

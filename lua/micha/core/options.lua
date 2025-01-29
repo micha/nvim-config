@@ -107,3 +107,4 @@ vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99 -- 0: all, 1: some, 99: none
 vim.opt.foldnestmax = 4
+vim.cmd([[highlight Folded guibg=#1a1b26]])

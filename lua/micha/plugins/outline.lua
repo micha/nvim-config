@@ -8,9 +8,19 @@ return {
   opts = {
     -- Your setup opts here
     outline_window = {
-      position = 'left',
-      width = 35,
+      position = "left",
+      width = 25,
       relative_width = false,
+    },
+
+    symbol_folding = {
+      autofold_depth = 2,
+    },
+
+    symbols = {
+      filter = {
+        default = { "Function", "Class" },
+      },
     },
   },
 }
