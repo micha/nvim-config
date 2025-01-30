@@ -184,6 +184,7 @@ return {
             pylsp = {
               plugins = {
                 pyflakes = { enabled = false },
+                -- pycodestyle = { enabled = false },
               },
             },
             -- python = {

@@ -16,13 +16,21 @@ return {
         yaml = { "prettier" },
         markdown = { "prettier" },
         lua = { "stylua" },
-        python = { "isort", "black" },
+        python = {
+          "isort",
+          "black",
+          "ruff_format",
+        },
       },
-      -- format_on_save = {
-      --   lsp_fallback = true,
-      --   async = false,
-      --   timeout_ms = 1000,
-      -- },
+      format_on_save = function(bufnr)
+        if vim.fn.filereadable(".enable-format-on-save") then
+          return {
+            lsp_fallback = true,
+            async = false,
+            timeout_ms = 1000,
+          }
+        end
+      end,
     })
 
     vim.keymap.set({ "n", "v" }, "<leader>F", function()
