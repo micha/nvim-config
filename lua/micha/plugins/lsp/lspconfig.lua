@@ -128,7 +128,7 @@ return {
       vim.diagnostic.config({
         virtual_text = false,
         float = {
-          header = false,
+          header = nil,
           source = true,
           border = "rounded",
           focusable = true,
