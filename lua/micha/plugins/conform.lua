@@ -24,7 +24,7 @@ return {
       },
       ---@diagnostic disable-next-line: unused-local
       format_on_save = function(bufnr)
-        if vim.fn.filereadable(".enable-format-on-save") then
+        if vim.fn.filereadable(".enable-format-on-save") == 1 then
           return {
             lsp_fallback = true,
             async = false,
