@@ -19,6 +19,7 @@ return {
     vim.api.nvim_set_hl(0, "ColorColumn", { link = "SignColumn" })
     vim.api.nvim_set_hl(0, "Folded", { bg = "#1a1b26", fg = "#7aa2f7" })
     vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#292e42" })
+    vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { fg = "#565f89" })
   end,
 }
 
