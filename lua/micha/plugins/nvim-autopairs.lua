@@ -10,7 +10,7 @@ return {
 
     -- configure autopairs
     autopairs.setup({
-      disable_filetype = { "TelescopePrompt", "vim", "clojure" },
+      disable_filetype = { "TelescopePrompt", "vim" },
       check_ts = true, -- enable treesitter
       ts_config = {
         lua = { "string" }, -- don't add pairs in lua string treesitter nodes

@@ -32,6 +32,7 @@ return {
       "dockerfile",
       "gitignore",
       "html",
+      "janet_simple",
       "javascript",
       "json",
       "latex",

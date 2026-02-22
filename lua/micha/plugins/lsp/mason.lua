@@ -28,6 +28,7 @@ return {
     mason_lspconfig.setup({
       -- list of servers for mason to install
       ensure_installed = {
+        "clangd",
         "clojure_lsp",
         "cssls",
         "emmet_ls",

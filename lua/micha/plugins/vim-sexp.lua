@@ -1,4 +1,4 @@
 return {
   "guns/vim-sexp",
-  ft = { "clojure" },
+  ft = { "clojure", "janet" },
 }

@@ -1,4 +1,19 @@
 ---@diagnostic disable: missing-fields
+---@diagnostic disable: undefined-global
+
+-- return {
+--   "oxfist/night-owl.nvim",
+--   lazy = false, -- make sure we load this during startup if it is your main colorscheme
+--   priority = 1000, -- make sure to load this before all the other start plugins
+--   config = function()
+--     -- load the colorscheme here
+--     require("night-owl").setup()
+--     vim.cmd.colorscheme("night-owl")
+--     vim.cmd.highlight("link", "IndentLine", "WinSeparator")
+--     vim.cmd.highlight("link", "IndentLineCurrent", "Comment")
+--   end,
+-- }
+
 return {
   "folke/tokyonight.nvim",
   priority = 1000,
@@ -16,7 +31,7 @@ return {
       end,
     })
     vim.cmd("colorscheme tokyonight")
-    vim.api.nvim_set_hl(0, "ColorColumn", { link = "SignColumn" })
+    vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#1a1b26" })
     vim.api.nvim_set_hl(0, "Folded", { bg = "#1a1b26", fg = "#7aa2f7" })
     vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#292e42" })
     vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { fg = "#565f89" })
