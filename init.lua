@@ -11,7 +11,7 @@ end
 local has = function(haystack, needle)
   for _, value in ipairs(haystack) do
     if value == needle then
-        return true
+      return true
     end
   end
 end
@@ -33,11 +33,11 @@ local prev_ws = function()
 end
 
 local function vselected()
-    local mode = vim.api.nvim_get_mode().mode
-    local pos1 = vim.fn.getpos("v")
-    local pos2 = vim.fn.getpos(".")
-    local region = vim.fn.getregion(pos1, pos2, { type = mode })
-    return table.concat(region, "\n")
+  local mode = vim.api.nvim_get_mode().mode
+  local pos1 = vim.fn.getpos("v")
+  local pos2 = vim.fn.getpos(".")
+  local region = vim.fn.getregion(pos1, pos2, { type = mode })
+  return table.concat(region, "\n")
 end
 
 local group = vim.api.nvim_create_augroup('MyGroup', { clear = true })
@@ -142,6 +142,7 @@ vim.opt.winborder           = 'rounded'
 vim.opt.lazyredraw          = true -- do not redraw during macros
 vim.opt.synmaxcol           = 300 -- syntax highlighting limit
 vim.opt.fillchars           = { eob = " " } -- hide "~" on empty lines
+vim.opt.showtabline         = 1 -- only show tabline when there are 2+ tabs
 
 vim.opt.list                = true -- show special characters (tabs, trailing whitespace, and non-breaking spaces)
 vim.opt.listchars           = { tab = "» ", trail = "·", nbsp = "␣" } -- use these characters for list chars
@@ -241,7 +242,7 @@ plugin('folke/which-key.nvim', function(m)
       { '<leader>gh',   group = 'Hunk' },
       { '<leader>l',    group = 'LSP' },
       { '<leader>p',    group = 'Plugin' },
-      { '<leader>t',    group = 'Tab' },
+      { '<C-t>',        group = 'Tab' },
     }
   })
 end)
@@ -322,15 +323,16 @@ plugin('ibhagwan/fzf-lua', function(m)
     buffers = { ignore_current_buffer = true },
     previewers = { builtin = { treesitter = { context = { max_lines = 0 } } } },
   })
-  nmap('<leader><leader>',  'Buffers',     '<CMD>FzfLua buffers<CR>')
-  nmap('<leader>fb',        'Builtins',    '<CMD>FzfLua builtin<CR>')
-  nmap('<leader>ff',        'Files',       '<CMD>FzfLua files<CR>')
-  nmap('<leader>fh',        'Help',        '<CMD>FzfLua help_tags<CR>')
-  nmap('<leader>fk',        'Keymaps',     '<CMD>FzfLua keymaps<CR>')
-  nmap('<leader>fq',        'Quickfix',    '<CMD>FzfLua quickfix<CR>')
-  nmap('<leader>fc',        'Word',        '<CMD>FzfLua grep_cword<CR>')
-  nmap('<leader>fs',        'String',      '<CMD>FzfLua live_grep<CR>')
-  nmap('<leader>fr',        'Resume',      '<CMD>FzfLua resume<CR>')
+  nmap('<leader><leader>',  'Buffers',    '<CMD>FzfLua buffers<CR>')
+  nmap('<leader>fb',        'Builtins',   '<CMD>FzfLua builtin<CR>')
+  nmap('<leader>ff',        'Files',      '<CMD>FzfLua files<CR>')
+  nmap('<leader>fh',        'Help',       '<CMD>FzfLua help_tags<CR>')
+  nmap('<leader>fk',        'Keymaps',    '<CMD>FzfLua keymaps<CR>')
+  nmap('<leader>fL',        'Loclist',    '<CMD>FzfLua loclist<CR>')
+  nmap('<leader>fq',        'Quickfix',   '<CMD>FzfLua quickfix<CR>')
+  nmap('<leader>fc',        'Word',       '<CMD>FzfLua grep_cword<CR>')
+  nmap('<leader>fs',        'String',     '<CMD>FzfLua live_grep<CR>')
+  nmap('<leader>fr',        'Resume',     '<CMD>FzfLua resume<CR>')
 end)
 
 -- }}}
@@ -458,6 +460,7 @@ plugin('nvim-lualine/lualine.nvim', function(m)
       component_separators = "",
       ignore_focus = remove(non_edit_file_types, "help"),
       disabled_filetypes = { statusline = remove(non_edit_file_types, "help") },
+      always_show_tabline = false,
     },
     sections = {
       lualine_a = { "mode" },
@@ -484,6 +487,11 @@ plugin('nvim-lualine/lualine.nvim', function(m)
       },
       lualine_y = { "progress" },
       lualine_z = { "location" },
+    },
+    tabline = {
+      lualine_a = {
+        { "tabs", mode = 2 },
+      },
     },
     inactive_sections = {
       lualine_a = {},
@@ -591,9 +599,9 @@ plugin('numToStr/FTerm.nvim', function()
     ft.open()
     vim.fn.chansend(ft.get_job_id(), vs .. "\n")
   end
-  nmap("<A-i>", "Toggle floating terminal", '<CMD>lua require("FTerm").toggle()<CR>')
-  tmap("<A-i>", "Toggle floating terminal", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
-  vmap("<C-t>", "Send selection", function() sendit() end)
+  nmap("<A-i>",   "Toggle floating terminal",     '<CMD>lua require("FTerm").toggle()<CR>')
+  tmap("<A-i>",   "Toggle floating terminal",     '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+  vmap("<A-t>",   "Send selection to terminal",   function() sendit() end)
 end)
 
 -- }}}
@@ -628,25 +636,35 @@ plugin('tpope/vim-sexp-mappings-for-regular-people')
 --------------------------------------------------------------------------------
 
 -- {{{
-nmap('ZZ',            'Quit',                       '<CMD>qa<CR>')
-nmap('<C-h>',         'Window focus left',          '<C-w><C-h>')
-nmap('<C-j>',         'Window focus down',          '<C-w><C-j>')
-nmap('<C-k>',         'Window focus up',            '<C-w><C-k>')
-nmap('<C-l>',         'Window focus right',         '<C-w><C-l>')
-nmap('aj',            'Break line at cursor',       'i<CR><ESC>')
-nmap('<C-c>',         'Hide search highlight',      '<CMD>nohlsearch<CR>')
-imap('<Tab>',         'Next completion',            function() return prev_ws() and '<Tab>' or '<C-n>' end, { expr = true })
-imap('<S-Tab>',       'Previous completion',        '<C-p>')
-nmap('<leader>x',     'Hide buffer',                '<CMD>hide<CR>')
-nmap('<leader>X',     'Destroy buffer',             '<CMD>bd<CR>')
-nmap('<leader>M',     'Messages',                   '<CMD>messages<CR>')
-nmap('<leader>pu',    'Update',                     '<CMD>lua vim.pack.update()<CR>')
-nmap('<leader>tc',    'New',                        '<Cmd>tabnew<CR>')
-nmap('<leader>tx',    'Close',                      '<Cmd>tabclose<CR>')
-nmap('<leader>tl',    'Next',                       '<Cmd>tabnext<CR>')
-nmap('<leader>th',    'Previous',                   '<Cmd>tabprevious<CR>')
-nmap('<leader>t>',    'Move right',                 '<Cmd>+tabmove<CR>')
-nmap('<leader>t<',    'Move left',                  '<Cmd>-tabmove<CR>')
+nmap('ZZ',              'Quit',                       '<CMD>qa<CR>')
+nmap('<C-h>',           'Window focus left',          '<C-w><C-h>')
+nmap('<C-j>',           'Window focus down',          '<C-w><C-j>')
+nmap('<C-k>',           'Window focus up',            '<C-w><C-k>')
+nmap('<C-l>',           'Window focus right',         '<C-w><C-l>')
+nmap('aj',              'Break line at cursor',       'i<CR><ESC>')
+nmap('<C-c>',           'Hide search highlight',      '<CMD>nohlsearch<CR>')
+imap('<Tab>',           'Next completion',            function() return prev_ws() and '<Tab>' or '<C-n>' end, { expr = true })
+imap('<S-Tab>',         'Previous completion',        '<C-p>')
+nmap('<leader>x',       'Hide buffer',                '<CMD>hide<CR>')
+nmap('<leader>X',       'Destroy buffer',             '<CMD>bd<CR>')
+nmap('<leader>M',       'Messages',                   '<CMD>messages<CR>')
+nmap('<leader>pu',      'Update',                     '<CMD>lua vim.pack.update()<CR>')
+nmap('<C-t><C-t>',      'New',                        '<Cmd>tabnew<CR>')
+nmap('<C-t><C-x>',      'Close',                      '<Cmd>tabclose<CR>')
+nmap('<C-t><C-o>',      'Close others',               '<Cmd>tabonly<CR>')
+nmap('<C-t><C-l>',      'Next',                       '<Cmd>tabnext<CR>')
+nmap('<C-t><C-h>',      'Previous',                   '<Cmd>tabprevious<CR>')
+nmap('<C-t>1',          'Goto tab 1',                 '<Cmd>1tabnext<CR>')
+nmap('<C-t>2',          'Goto tab 2',                 '<Cmd>2tabnext<CR>')
+nmap('<C-t>3',          'Goto tab 3',                 '<Cmd>3tabnext<CR>')
+nmap('<C-t>4',          'Goto tab 4',                 '<Cmd>4tabnext<CR>')
+nmap('<C-t>5',          'Goto tab 5',                 '<Cmd>5tabnext<CR>')
+nmap('<C-t>6',          'Goto tab 6',                 '<Cmd>6tabnext<CR>')
+nmap('<C-t>7',          'Goto tab 7',                 '<Cmd>7tabnext<CR>')
+nmap('<C-t>8',          'Goto tab 8',                 '<Cmd>8tabnext<CR>')
+nmap('<C-t>9',          'Goto tab 9',                 '<Cmd>9tabnext<CR>')
+nmap('<C-t>>',          'Move right',                 '<Cmd>+tabmove<CR>')
+nmap('<C-t><',          'Move left',                  '<Cmd>-tabmove<CR>')
 -- }}}
 
 --------------------------------------------------------------------------------
