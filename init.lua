@@ -319,6 +319,7 @@ plugin('ibhagwan/fzf-lua', function(m)
         ["alt-G"]       = "last",
       },
     },
+    buffers = { ignore_current_buffer = true },
     previewers = { builtin = { treesitter = { context = { max_lines = 0 } } } },
   })
   nmap('<leader><leader>',  'Buffers',     '<CMD>FzfLua buffers<CR>')
@@ -346,6 +347,21 @@ plugin 'mason-org/mason.nvim'
 -- {{{ efmls-configs-nvim
 
 plugin 'creativenull/efmls-configs-nvim'
+
+-- }}}
+-- {{{ lsp-status.nvim
+
+plugin('nvim-lua/lsp-status.nvim', function(m)
+  m.register_progress()
+  m.config({
+    indicator_separator = "",
+    status_symbol = "",
+    indicator_errors = "E",
+    indicator_warnings = "W",
+    indicator_info = "I",
+    indicator_hint = "H",
+  })
+end)
 
 -- }}}
 -- {{{ nvim-lspconfig
@@ -429,21 +445,6 @@ plugin('nvim-mini/mini.nvim', false, function()
   end)
 
   nmap('<leader>E', 'File explorer', function() require('mini.files').open(vim.api.nvim_buf_get_name(0), true) end)
-end)
-
--- }}}
--- {{{ lsp-status.nvim
-
-plugin('nvim-lua/lsp-status.nvim', function(m)
-  m.register_progress()
-  m.config({
-    indicator_separator = "",
-    status_symbol = "",
-    indicator_errors = "E",
-    indicator_warnings = "W",
-    indicator_info = "I",
-    indicator_hint = "H",
-  })
 end)
 
 -- }}}
