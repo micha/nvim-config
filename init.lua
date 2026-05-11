@@ -69,7 +69,7 @@ local plugin = function(...)
   if args.n == 1 then
     setup = {}
   elseif args.n == 2 then
-    f = args[2]
+    if type(args[2]) == 'function' then f = args[2] else setup = args[2] end
   else
     setup = args[2]
     f = args[3]
@@ -180,9 +180,9 @@ vim.opt.splitright          = true -- vertical splits go right
 
 vim.opt.wildmenu            = true -- tab completion
 vim.opt.wildmode            = "longest:full,full" -- complete longest common match, full completion list, cycle through with Tab
-vim.opt.autocomplete        = true -- enable autocompletion
+vim.opt.autocomplete        = false -- automatically show completion dropdown while typing
 vim.opt.completeopt         = "menuone,noinsert,noselect,preview" -- completion options
-vim.opt.complete:append('o') -- add omnicomplete source
+-- vim.opt.complete:append('o') -- add omnicomplete source
 
 vim.opt.diffopt:append("linematch:60") -- improve diff display
 vim.opt.redrawtime          = 10000 -- increase neovim redraw tolerance
@@ -194,6 +194,7 @@ local non_edit_file_types = {
   'help',
   'Outline',
   'nvim-undotree',
+  'FTerm',
 }
 -- }}}
 
@@ -241,7 +242,6 @@ plugin('folke/which-key.nvim', function(m)
       { '<leader>g',    group = 'Git' },
       { '<leader>gh',   group = 'Hunk' },
       { '<leader>l',    group = 'LSP' },
-      { '<leader>p',    group = 'Plugin' },
       { '<C-t>',        group = 'Tab' },
     }
   })
@@ -303,8 +303,8 @@ plugin('ibhagwan/fzf-lua', function(m)
         ["<F8>"]        = "preview-ts-ctx-dec",
         ["<F9>"]        = "preview-ts-ctx-inc",
         ["<S-Left>"]    = "preview-reset",
-        ["<PageDown>"]  = "preview-page-down",
-        ["<PageUp>"]    = "preview-page-up",
+        ["<PageDown>"]  = "preview-half-page-down",
+        ["<PageUp>"]    = "preview-half-page-up",
         ["<Down>"]      = "preview-down",
         ["<Up>"]        = "preview-up",
       },
@@ -375,6 +375,7 @@ plugin('neovim/nvim-lspconfig', function()
     'coffeesense',
     'lua_ls',
     'ts_ls',
+    'pyright',
   })
 
   autocmd('LspAttach', 'LSP keymaps', function(e)
@@ -382,7 +383,6 @@ plugin('neovim/nvim-lspconfig', function()
     local bufnr = e.buf
     local opts = { buffer = bufnr }
     local fzf = require('fzf-lua')
-    local lsp = vim.lsp.buf
 
     if not client then return end
 
@@ -395,10 +395,9 @@ plugin('neovim/nvim-lspconfig', function()
       jump = { float = true },
     })
 
-    nmap('<leader>D',     'Show diagnostics',         vim.diagnostic.open_float,                    opts)
-    nmap('<leader>la',    'Code actions',             lsp.code_action,                              opts)
-    nmap('<leader>lr',    'Rename',                   lsp.rename,                                   opts)
-    nmap('<leader>ld',    'Definitions',              function() fzf.lsp_definitions() end,         opts)
+    vim.lsp.completion.enable(true, client.id, bufnr)
+    vim.bo.complete = 'o'
+
     nmap('<leader>fld',   'Document diagnostics',     function() fzf.diagnostics_document() end,    opts)
     nmap('<leader>flD',   'Workspace diagnostics',    function() fzf.diagnostics_workspace() end,   opts)
     nmap('<leader>flr',   'References',               function() fzf.lsp_references() end,          opts)
@@ -538,7 +537,7 @@ plugin('lewis6991/gitsigns.nvim', function(m)
   nmap('<leader>ghp', 'Preview',            function() m.preview_hunk() end)
   nmap('<leader>gb',  'Toggle blame line',  function() m.toggle_current_line_blame() end)
   nmap('<leader>gB',  'Blame line full',    function() m.blame_line({ full = true }) end)
-  nmap('<leader>gd',  'Diff this',          function() m.diffthis() end)
+  nmap('<leader>gd',  'Diff view',          '<CMD>DiffviewOpen<CR>')
 end)
 
 -- }}}
@@ -547,11 +546,6 @@ end)
 plugin('windwp/nvim-autopairs', function(m)
   m.setup({ check_ts = true })
 end)
-
--- }}}
--- {{{ nvim-bqf
-
-plugin 'kevinhwang91/nvim-bqf'
 
 -- }}}
 -- {{{ outline.nvim
@@ -594,14 +588,15 @@ plugin 'jamessan/vim-gnupg'
 
 plugin('numToStr/FTerm.nvim', function()
   local ft = require("FTerm")
-  local sendit = function()
+  local sendit = function(cr)
     local vs = vselected()
     ft.open()
-    vim.fn.chansend(ft.get_job_id(), vs .. "\n")
+    vim.fn.chansend(ft.get_job_id(), vs .. (cr and "\r" or ""))
   end
-  nmap("<A-i>",   "Toggle floating terminal",     '<CMD>lua require("FTerm").toggle()<CR>')
-  tmap("<A-i>",   "Toggle floating terminal",     '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
-  vmap("<A-t>",   "Send selection to terminal",   function() sendit() end)
+  nmap("<A-i>",   "Toggle floating terminal",                 '<CMD>lua require("FTerm").toggle()<CR>')
+  tmap("<A-i>",   "Toggle floating terminal",                 '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+  vmap("<A-p>",   "Send selection to terminal with <CR>",     function() sendit(true) end)
+  vmap("<A-P>",   "Send selection to terminal without <CR>",  function() sendit(false) end)
 end)
 
 -- }}}
@@ -630,6 +625,13 @@ end)
 plugin('tpope/vim-sexp-mappings-for-regular-people')
 
 -- }}}
+-- {{{ diffview.nvim
+
+plugin('sindrets/diffview.nvim', function(m)
+  m.setup({ use_icons = false })
+end)
+
+-- }}}
 
 --------------------------------------------------------------------------------
 --- KEYMAPS
@@ -645,10 +647,9 @@ nmap('aj',              'Break line at cursor',       'i<CR><ESC>')
 nmap('<C-c>',           'Hide search highlight',      '<CMD>nohlsearch<CR>')
 imap('<Tab>',           'Next completion',            function() return prev_ws() and '<Tab>' or '<C-n>' end, { expr = true })
 imap('<S-Tab>',         'Previous completion',        '<C-p>')
-nmap('<leader>x',       'Hide buffer',                '<CMD>hide<CR>')
 nmap('<leader>X',       'Destroy buffer',             '<CMD>bd<CR>')
 nmap('<leader>M',       'Messages',                   '<CMD>messages<CR>')
-nmap('<leader>pu',      'Update',                     '<CMD>lua vim.pack.update()<CR>')
+nmap('<leader>R',       'Redraw',                     '<CMD>redraw!<CR>')
 nmap('<C-t><C-t>',      'New',                        '<Cmd>tabnew<CR>')
 nmap('<C-t><C-x>',      'Close',                      '<Cmd>tabclose<CR>')
 nmap('<C-t><C-o>',      'Close others',               '<Cmd>tabonly<CR>')
