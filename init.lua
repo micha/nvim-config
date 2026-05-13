@@ -40,9 +40,9 @@ local function vselected()
   return table.concat(region, "\n")
 end
 
-local group = vim.api.nvim_create_augroup('MyGroup', { clear = true })
+local group                       = vim.api.nvim_create_augroup('MyGroup', { clear = true })
 
-local autocmd = function(event, desc, callback)
+local autocmd                     = function(event, desc, callback)
   vim.api.nvim_create_autocmd(event, {
     group = group,
     desc = desc,
@@ -50,19 +50,19 @@ local autocmd = function(event, desc, callback)
   })
 end
 
-local map = function(mode)
+local map                         = function(mode)
   return function(lhs, desc, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, default({ desc = desc, remap = false, silent = true }, opts or {}))
   end
 end
 
-local imap = map('i')
-local nmap = map('n')
-local tmap = map('t')
-local vmap = map('v')
+local imap                        = map('i')
+local nmap                        = map('n')
+local tmap                        = map('t')
+local vmap                        = map('v')
 
-local plugin = function(...)
-  local args = {n = select("#", ...), ...}
+local plugin                      = function(...)
+  local args = { n = select("#", ...), ... }
   local repo = args[1]
   local spec = {}
   local setup, f, name, ok, module
@@ -100,95 +100,97 @@ end
 --------------------------------------------------------------------------------
 
 -- {{{
-vim.g.mapleader             = ' ' -- must define before plugins are loaded
-vim.g.maplocalleader        = ',' -- must define before plugins are loaded
+vim.g.mapleader                   = ' '      -- must define before plugins are loaded
+vim.g.maplocalleader              = ','      -- must define before plugins are loaded
 vim.g.omni_sql_default_compl_type = 'syntax' -- otherwise need dbext plugin
 
 
-vim.opt.termguicolors       = true -- terminal has full color support
-vim.opt.background          = 'dark' -- dark mode
+vim.opt.termguicolors  = true   -- terminal has full color support
+vim.opt.background     = 'dark' -- dark mode
 
-vim.opt.number              = true -- line number
-vim.opt.relativenumber      = true -- relative line numbers
-vim.opt.cursorline          = true -- highlight current line
-vim.opt.wrap                = false -- do not wrap lines by default
-vim.opt.scrolloff           = 10 -- keep 10 lines above/below cursor
-vim.opt.sidescrolloff       = 10 -- keep 10 columns to left/right of cursor
+vim.opt.number         = true   -- line number
+vim.opt.relativenumber = true   -- relative line numbers
+vim.opt.cursorline     = true   -- highlight current line
+vim.opt.wrap           = false  -- do not wrap lines by default
+vim.opt.scrolloff      = 10     -- keep 10 lines above/below cursor
+vim.opt.sidescrolloff  = 10     -- keep 10 columns to left/right of cursor
 
-vim.opt.tabstop             = 2 -- tabwidth
-vim.opt.shiftwidth          = 2 -- indent width
-vim.opt.softtabstop         = 2 -- soft tab stop not tabs on tab/backspace
-vim.opt.expandtab           = true -- use spaces instead of tabs
-vim.opt.smartindent         = true -- smart auto-indent
-vim.opt.autoindent          = true -- copy indent from current line
+vim.opt.tabstop        = 2      -- tabwidth
+vim.opt.shiftwidth     = 2      -- indent width
+vim.opt.softtabstop    = 2      -- soft tab stop not tabs on tab/backspace
+vim.opt.expandtab      = true   -- use spaces instead of tabs
+vim.opt.smartindent    = true   -- smart auto-indent
+vim.opt.autoindent     = true   -- copy indent from current line
 
-vim.opt.ignorecase          = true -- case insensitive search
-vim.opt.smartcase           = true -- case sensitive if uppercase in string
-vim.opt.hlsearch            = true -- highlight search matches
-vim.opt.incsearch           = true -- show matches as you type
+vim.opt.ignorecase     = true   -- case insensitive search
+vim.opt.smartcase      = true   -- case sensitive if uppercase in string
+vim.opt.hlsearch       = true   -- highlight search matches
+vim.opt.incsearch      = true   -- show matches as you type
 
-vim.opt.signcolumn          = "yes" -- always show a sign column
-vim.opt.colorcolumn         = "80" -- show a column at 100 position chars
-vim.opt.showmatch           = true -- highlights matching brackets
-vim.opt.cmdheight           = 0 -- single line command line
+vim.opt.signcolumn     = "yes"  -- always show a sign column
+vim.opt.colorcolumn    = "80"   -- show a column at 100 position chars
+vim.opt.showmatch      = true   -- highlights matching brackets
+vim.opt.cmdheight      = 0      -- single line command line
 -- vim.opt.showmode            = false -- do not show the mode, instead have it in statusline
 -- vim.opt.pumheight           = 10 -- popup menu height
-vim.opt.pumblend            = 0 -- popup menu transparency
-vim.opt.pumborder           = 'rounded' -- popup menu border
-vim.opt.winblend            = 0 -- floating window transparency
-vim.opt.winborder           = 'rounded'
+vim.opt.pumblend       = 0         -- popup menu transparency
+vim.opt.pumborder      = 'rounded' -- popup menu border
+vim.opt.winblend       = 0         -- floating window transparency
+vim.opt.winborder      = 'rounded'
 -- vim.opt.conceallevel        = 2 -- obsidian requirement
 -- vim.opt.concealcursor       = "" -- do not hide cursorline in markup
-vim.opt.lazyredraw          = true -- do not redraw during macros
-vim.opt.synmaxcol           = 300 -- syntax highlighting limit
-vim.opt.fillchars           = { eob = " " } -- hide "~" on empty lines
-vim.opt.showtabline         = 1 -- only show tabline when there are 2+ tabs
+vim.opt.lazyredraw     = true -- do not redraw during macros
+vim.opt.synmaxcol      = 300 -- syntax highlighting limit
+vim.opt.fillchars      = { eob = " " } -- hide "~" on empty lines
+vim.opt.showtabline    = 1 -- only show tabline when there are 2+ tabs
 
-vim.opt.list                = true -- show special characters (tabs, trailing whitespace, and non-breaking spaces)
-vim.opt.listchars           = { tab = "» ", trail = "·", nbsp = "␣" } -- use these characters for list chars
+vim.opt.list           = true -- show special characters (tabs, trailing whitespace, and non-breaking spaces)
+vim.opt.listchars      = { tab = "» ", trail = "·", nbsp = "␣" } -- use these characters for list chars
 
-vim.opt.backup              = false -- do not create a backup file
-vim.opt.writebackup         = false -- do not write to a backup file
-vim.opt.swapfile            = false -- do not create a swapfile
-vim.opt.undofile            = true -- do create an undo file
-vim.opt.updatetime          = 300 -- faster completion
-vim.opt.timeoutlen          = 500 -- timeout duration
+vim.opt.backup         = false -- do not create a backup file
+vim.opt.writebackup    = false -- do not write to a backup file
+vim.opt.swapfile       = false -- do not create a swapfile
+vim.opt.undofile       = true -- do create an undo file
+vim.opt.updatetime     = 300 -- faster completion
+vim.opt.timeoutlen     = 500 -- timeout duration
 -- vim.opt.ttimeoutlen         = 50 -- key code timeout
-vim.opt.autoread            = true -- auto-reload changes if outside of neovim
-vim.opt.autowrite           = false -- do not auto-save
-vim.opt.sessionoptions      = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.opt.autoread       = true -- auto-reload changes if outside of neovim
+vim.opt.autowrite      = false -- do not auto-save
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
-vim.opt.hidden              = true -- allow hidden buffers
-vim.opt.errorbells          = false -- no error sounds
-vim.opt.backspace           = "indent,eol,start" -- better backspace behaviour
-vim.opt.autochdir           = false -- do not autochange directories
-vim.opt.iskeyword:append("-") -- include - in words
-vim.opt.path:append("**") -- include subdirs in search
-vim.opt.selection           = "inclusive" -- include last char in selection
-vim.opt.mouse               = "a" -- enable mouse support
+vim.opt.hidden         = true                              -- allow hidden buffers
+vim.opt.errorbells     = false                             -- no error sounds
+vim.opt.backspace      = "indent,eol,start"                -- better backspace behaviour
+vim.opt.autochdir      = false                             -- do not autochange directories
+vim.opt.iskeyword:append("-")                              -- include - in words
+vim.opt.path:append("**")                                  -- include subdirs in search
+vim.opt.selection    = "inclusive"                         -- include last char in selection
+vim.opt.mouse        = "a"                                 -- enable mouse support
 -- vim.opt.clipboard:append("unnamedplus") -- use system clipboard
-vim.opt.modifiable          = true -- allow buffer modifications
-vim.opt.encoding            = "utf-8" -- set encoding
-vim.opt.spelllang           = "en" -- do `:set spell!` to toggle spellchecking
+vim.opt.modifiable   = true                                -- allow buffer modifications
+vim.opt.encoding     = "utf-8"                             -- set encoding
+vim.opt.spelllang    = "en"                                -- do `:set spell!` to toggle spellchecking
 
-vim.opt.foldmethod          = "expr" -- use expression for folding
-vim.opt.foldexpr            = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for folding
-vim.opt.foldlevel           = 99 -- start with all folds open
+vim.opt.foldmethod   = "expr"                              -- use expression for folding
+vim.opt.foldexpr     = "v:lua.vim.treesitter.foldexpr()"   -- use treesitter for folding
+vim.opt.foldlevel    = 99                                  -- start with all folds open
 
-vim.opt.splitbelow          = true -- horizontal splits go below
-vim.opt.splitright          = true -- vertical splits go right
+vim.opt.splitbelow   = true                                -- horizontal splits go below
+vim.opt.splitright   = true                                -- vertical splits go right
 
-vim.opt.wildmenu            = true -- tab completion
-vim.opt.wildmode            = "longest:full,full" -- complete longest common match, full completion list, cycle through with Tab
-vim.opt.autocomplete        = false -- automatically show completion dropdown while typing
-vim.opt.completeopt         = "menuone,noinsert,noselect,preview" -- completion options
+vim.opt.wildmenu     = true                                -- tab completion
+vim.opt.wildmode     = "longest:full,full"                 -- complete longest common match, full completion list, cycle through with Tab
+vim.opt.autocomplete = false                               -- automatically show completion dropdown while typing
+vim.opt.completeopt  = "menuone,noinsert,noselect,preview" -- completion options
 -- vim.opt.complete:append('o') -- add omnicomplete source
 
 vim.opt.diffopt:append("linematch:60") -- improve diff display
-vim.opt.redrawtime          = 10000 -- increase neovim redraw tolerance
-vim.opt.maxmempattern       = 20000 -- increase max memory
+vim.opt.redrawtime    = 10000          -- increase neovim redraw tolerance
+vim.opt.maxmempattern = 20000          -- increase max memory
 
-require('vim._core.ui2').enable({}) -- https://neovim.io/doc/user/lua/#ui2
+require('vim._core.ui2').enable({
+  msg = { targets = 'msg' },
+})
 
 local non_edit_file_types = {
   'help',
@@ -222,11 +224,11 @@ plugin('folke/tokyonight.nvim', function(m)
     end,
   })
   vim.cmd.colorscheme('tokyonight-night')
-  vim.api.nvim_set_hl(0, "ColorColumn",           { bg = "#1a1b26" })
-  vim.api.nvim_set_hl(0, "Folded",                { bg = "#1a1b26", fg = "#7aa2f7" })
-  vim.api.nvim_set_hl(0, "TreesitterContext",     { bg = "#292e42" })
+  vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#1a1b26" })
+  vim.api.nvim_set_hl(0, "Folded", { bg = "#1a1b26", fg = "#7aa2f7" })
+  vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#292e42" })
   vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { fg = "#565f89" })
-  vim.api.nvim_set_hl(0, "WinSeparator",          { fg = "#292e42" })
+  vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#292e42" })
 end)
 
 -- }}}
@@ -237,12 +239,13 @@ plugin('folke/which-key.nvim', function(m)
     preset = 'classic',
     icons = { mappings = false, keys = {} },
     spec = {
-      { '<leader>f',    group = 'Find' },
-      { '<leader>fl',   group = 'LSP' },
-      { '<leader>g',    group = 'Git' },
-      { '<leader>gh',   group = 'Hunk' },
-      { '<leader>l',    group = 'LSP' },
-      { '<C-t>',        group = 'Tab' },
+      { '<leader>f',  group = 'Find' },
+      { '<leader>fl', group = 'LSP' },
+      { '<leader>g',  group = 'Git' },
+      { '<leader>gh', group = 'Hunk' },
+      { '<leader>l',  group = 'LSP' },
+      { '<C-t>',      group = 'Tab' },
+      { 'gr',         group = 'LSP' },
     }
   })
 end)
@@ -293,46 +296,54 @@ plugin('ibhagwan/fzf-lua', function(m)
   m.setup({
     keymap = {
       builtin = {
-        ["<F1>"]        = "toggle-help",
-        ["<F2>"]        = "toggle-fullscreen",
-        ["<F3>"]        = "toggle-preview-wrap",
-        ["<F4>"]        = "toggle-preview",
-        ["<F5>"]        = "toggle-preview-cw",
-        ["<F6>"]        = "toggle-preview-behavior",
-        ["<F7>"]        = "toggle-preview-ts-ctx", -- requires `nvim-treesitter-context`
-        ["<F8>"]        = "preview-ts-ctx-dec",
-        ["<F9>"]        = "preview-ts-ctx-inc",
-        ["<S-Left>"]    = "preview-reset",
-        ["<PageDown>"]  = "preview-half-page-down",
-        ["<PageUp>"]    = "preview-half-page-up",
-        ["<Down>"]      = "preview-down",
-        ["<Up>"]        = "preview-up",
+        ["<F1>"]       = "toggle-help",
+        ["<F2>"]       = "toggle-fullscreen",
+        ["<F3>"]       = "toggle-preview-wrap",
+        ["<F4>"]       = "toggle-preview",
+        ["<F5>"]       = "toggle-preview-cw",
+        ["<F6>"]       = "toggle-preview-behavior",
+        ["<F7>"]       = "toggle-preview-ts-ctx", -- requires `nvim-treesitter-context`
+        ["<F8>"]       = "preview-ts-ctx-dec",
+        ["<F9>"]       = "preview-ts-ctx-inc",
+        ["<S-Left>"]   = "preview-reset",
+        ["<PageDown>"] = "preview-half-page-down",
+        ["<PageUp>"]   = "preview-half-page-up",
+        ["<Down>"]     = "preview-down",
+        ["<Up>"]       = "preview-up",
       },
       fzf = {
-        ["ctrl-z"]      = "abort",
-        ["ctrl-u"]      = "unix-line-discard",
-        ["ctrl-f"]      = "half-page-down",
-        ["ctrl-b"]      = "half-page-up",
-        ["ctrl-a"]      = "beginning-of-line",
-        ["ctrl-e"]      = "end-of-line",
-        ["alt-a"]       = "toggle-all",
-        ["alt-g"]       = "first",
-        ["alt-G"]       = "last",
+        ["ctrl-z"] = "abort",
+        ["ctrl-u"] = "unix-line-discard",
+        ["ctrl-f"] = "half-page-down",
+        ["ctrl-b"] = "half-page-up",
+        ["ctrl-a"] = "beginning-of-line",
+        ["ctrl-e"] = "end-of-line",
+        ["alt-a"]  = "toggle-all",
+        ["alt-g"]  = "first",
+        ["alt-G"]  = "last",
       },
     },
+    actions = {
+      files = {
+        true,
+        ["alt-h"] = false,
+        ["alt-H"] = m.actions.toggle_hidden,
+      }
+    },
     buffers = { ignore_current_buffer = true },
+    files = { follow = true },
     previewers = { builtin = { treesitter = { context = { max_lines = 0 } } } },
   })
-  nmap('<leader><leader>',  'Buffers',    '<CMD>FzfLua buffers<CR>')
-  nmap('<leader>fb',        'Builtins',   '<CMD>FzfLua builtin<CR>')
-  nmap('<leader>ff',        'Files',      '<CMD>FzfLua files<CR>')
-  nmap('<leader>fh',        'Help',       '<CMD>FzfLua help_tags<CR>')
-  nmap('<leader>fk',        'Keymaps',    '<CMD>FzfLua keymaps<CR>')
-  nmap('<leader>fL',        'Loclist',    '<CMD>FzfLua loclist<CR>')
-  nmap('<leader>fq',        'Quickfix',   '<CMD>FzfLua quickfix<CR>')
-  nmap('<leader>fc',        'Word',       '<CMD>FzfLua grep_cword<CR>')
-  nmap('<leader>fs',        'String',     '<CMD>FzfLua live_grep<CR>')
-  nmap('<leader>fr',        'Resume',     '<CMD>FzfLua resume<CR>')
+  nmap('<leader><leader>', 'Buffers', '<CMD>FzfLua buffers<CR>')
+  nmap('<leader>fb', 'Builtins', '<CMD>FzfLua builtin<CR>')
+  nmap('<leader>ff', 'Files', '<CMD>FzfLua files<CR>')
+  nmap('<leader>fh', 'Help', '<CMD>FzfLua help_tags<CR>')
+  nmap('<leader>fk', 'Keymaps', '<CMD>FzfLua keymaps<CR>')
+  nmap('<leader>fL', 'Loclist', '<CMD>FzfLua loclist<CR>')
+  nmap('<leader>fq', 'Quickfix', '<CMD>FzfLua quickfix<CR>')
+  nmap('<leader>fc', 'Word', '<CMD>FzfLua grep_cword<CR>')
+  nmap('<leader>fs', 'String', '<CMD>FzfLua live_grep<CR>')
+  nmap('<leader>fr', 'Resume', '<CMD>FzfLua resume<CR>')
 end)
 
 -- }}}
@@ -344,11 +355,6 @@ plugin 'folke/lazydev.nvim'
 -- {{{ mason.nvim
 
 plugin 'mason-org/mason.nvim'
-
--- }}}
--- {{{ efmls-configs-nvim
-
-plugin 'creativenull/efmls-configs-nvim'
 
 -- }}}
 -- {{{ lsp-status.nvim
@@ -369,7 +375,6 @@ end)
 -- {{{ nvim-lspconfig
 
 plugin('neovim/nvim-lspconfig', function()
-  -- https://github.com/neovim/nvim-lspconfig/tree/master/lsp
   vim.lsp.enable({
     'clojure_lsp',
     'coffeesense',
@@ -398,14 +403,30 @@ plugin('neovim/nvim-lspconfig', function()
     vim.lsp.completion.enable(true, client.id, bufnr)
     vim.bo.complete = 'o'
 
-    nmap('<leader>fld',   'Document diagnostics',     function() fzf.diagnostics_document() end,    opts)
-    nmap('<leader>flD',   'Workspace diagnostics',    function() fzf.diagnostics_workspace() end,   opts)
-    nmap('<leader>flr',   'References',               function() fzf.lsp_references() end,          opts)
-    nmap('<leader>flt',   'Typedefs',                 function() fzf.lsp_typedefs() end,            opts)
-    nmap('<leader>fls',   'Document symbols',         function() fzf.lsp_document_symbols() end,    opts)
-    nmap('<leader>flS',   'Workspace symbols',        function() fzf.lsp_workspace_symbols() end,   opts)
-    nmap('<leader>fli',   'Implementations',          function() fzf.lsp_implementations() end,     opts)
+    nmap('grd', 'vim.lsp.buf.definition()', function() vim.lsp.buf.definition() end)
+    nmap('<leader>fld', 'Document diagnostics', function() fzf.diagnostics_document() end, opts)
+    nmap('<leader>flD', 'Workspace diagnostics', function() fzf.diagnostics_workspace() end, opts)
+    nmap('<leader>flr', 'References', function() fzf.lsp_references() end, opts)
+    nmap('<leader>flt', 'Typedefs', function() fzf.lsp_typedefs() end, opts)
+    nmap('<leader>fls', 'Document symbols', function() fzf.lsp_document_symbols() end, opts)
+    nmap('<leader>flS', 'Workspace symbols', function() fzf.lsp_workspace_symbols() end, opts)
+    nmap('<leader>fli', 'Implementations', function() fzf.lsp_implementations() end, opts)
   end)
+end)
+
+-- }}}
+-- {{{ conform.nvim
+
+plugin('stevearc/conform.nvim', function(m)
+  m.setup({
+    formatters_by_ft = {
+      lua = { lsp_format = 'always' },
+      python = { 'black', lsp_format = 'never' },
+      javascript = { 'prettierd', lsp_format = 'never' },
+      typescript = { 'prettierd', lsp_format = 'never' },
+    },
+  })
+  nmap('<leader>F', 'Format', function() m.format() end)
 end)
 
 -- }}}
@@ -437,6 +458,7 @@ plugin('nvim-mini/mini.nvim', false, function()
     },
   })
   require('mini.indentscope').setup({})
+  require('mini.splitjoin').setup({})
   require('mini.surround').setup({})
 
   autocmd('FileType', 'Configure indentscope', function()
@@ -530,14 +552,14 @@ plugin('lewis6991/gitsigns.nvim', function(m)
     numhl = true,
   })
 
-  nmap(']h',          'Next hunk',          function() m.nav_hunk('next') end)
-  nmap('[h',          'Previous hunk',      function() m.nav_hunk('prev') end)
-  nmap('<leader>ghs', 'Stage',              function() m.stage_hunk() end)
-  nmap('<leader>ghr', 'Reset',              function() m.reset_hunk() end)
-  nmap('<leader>ghp', 'Preview',            function() m.preview_hunk() end)
-  nmap('<leader>gb',  'Toggle blame line',  function() m.toggle_current_line_blame() end)
-  nmap('<leader>gB',  'Blame line full',    function() m.blame_line({ full = true }) end)
-  nmap('<leader>gd',  'Diff view',          '<CMD>DiffviewOpen<CR>')
+  nmap(']h', 'Next hunk', function() m.nav_hunk('next') end)
+  nmap('[h', 'Previous hunk', function() m.nav_hunk('prev') end)
+  nmap('<leader>ghs', 'Stage', function() m.stage_hunk() end)
+  nmap('<leader>ghr', 'Reset', function() m.reset_hunk() end)
+  nmap('<leader>ghp', 'Preview', function() m.preview_hunk() end)
+  nmap('<leader>gb', 'Toggle blame line', function() m.toggle_current_line_blame() end)
+  nmap('<leader>gB', 'Blame line full', function() m.blame_line({ full = true }) end)
+  nmap('<leader>gd', 'Diff view', '<CMD>DiffviewOpen<CR>')
 end)
 
 -- }}}
@@ -593,10 +615,10 @@ plugin('numToStr/FTerm.nvim', function()
     ft.open()
     vim.fn.chansend(ft.get_job_id(), vs .. (cr and "\r" or ""))
   end
-  nmap("<A-i>",   "Toggle floating terminal",                 '<CMD>lua require("FTerm").toggle()<CR>')
-  tmap("<A-i>",   "Toggle floating terminal",                 '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
-  vmap("<A-p>",   "Send selection to terminal with <CR>",     function() sendit(true) end)
-  vmap("<A-P>",   "Send selection to terminal without <CR>",  function() sendit(false) end)
+  nmap("<A-i>", "Toggle floating terminal", '<CMD>lua require("FTerm").toggle()<CR>')
+  tmap("<A-i>", "Toggle floating terminal", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+  vmap("<A-p>", "Send selection to terminal with <CR>", function() sendit(true) end)
+  vmap("<A-P>", "Send selection to terminal without <CR>", function() sendit(false) end)
 end)
 
 -- }}}
@@ -638,34 +660,34 @@ end)
 --------------------------------------------------------------------------------
 
 -- {{{
-nmap('ZZ',              'Quit',                       '<CMD>qa<CR>')
-nmap('<C-h>',           'Window focus left',          '<C-w><C-h>')
-nmap('<C-j>',           'Window focus down',          '<C-w><C-j>')
-nmap('<C-k>',           'Window focus up',            '<C-w><C-k>')
-nmap('<C-l>',           'Window focus right',         '<C-w><C-l>')
-nmap('aj',              'Break line at cursor',       'i<CR><ESC>')
-nmap('<C-c>',           'Hide search highlight',      '<CMD>nohlsearch<CR>')
-imap('<Tab>',           'Next completion',            function() return prev_ws() and '<Tab>' or '<C-n>' end, { expr = true })
-imap('<S-Tab>',         'Previous completion',        '<C-p>')
-nmap('<leader>X',       'Destroy buffer',             '<CMD>bd<CR>')
-nmap('<leader>M',       'Messages',                   '<CMD>messages<CR>')
-nmap('<leader>R',       'Redraw',                     '<CMD>redraw!<CR>')
-nmap('<C-t><C-t>',      'New',                        '<Cmd>tabnew<CR>')
-nmap('<C-t><C-x>',      'Close',                      '<Cmd>tabclose<CR>')
-nmap('<C-t><C-o>',      'Close others',               '<Cmd>tabonly<CR>')
-nmap('<C-t><C-l>',      'Next',                       '<Cmd>tabnext<CR>')
-nmap('<C-t><C-h>',      'Previous',                   '<Cmd>tabprevious<CR>')
-nmap('<C-t>1',          'Goto tab 1',                 '<Cmd>1tabnext<CR>')
-nmap('<C-t>2',          'Goto tab 2',                 '<Cmd>2tabnext<CR>')
-nmap('<C-t>3',          'Goto tab 3',                 '<Cmd>3tabnext<CR>')
-nmap('<C-t>4',          'Goto tab 4',                 '<Cmd>4tabnext<CR>')
-nmap('<C-t>5',          'Goto tab 5',                 '<Cmd>5tabnext<CR>')
-nmap('<C-t>6',          'Goto tab 6',                 '<Cmd>6tabnext<CR>')
-nmap('<C-t>7',          'Goto tab 7',                 '<Cmd>7tabnext<CR>')
-nmap('<C-t>8',          'Goto tab 8',                 '<Cmd>8tabnext<CR>')
-nmap('<C-t>9',          'Goto tab 9',                 '<Cmd>9tabnext<CR>')
-nmap('<C-t>>',          'Move right',                 '<Cmd>+tabmove<CR>')
-nmap('<C-t><',          'Move left',                  '<Cmd>-tabmove<CR>')
+nmap('ZZ', 'Quit', '<CMD>qa<CR>')
+nmap('<C-h>', 'Window focus left', '<C-w><C-h>')
+nmap('<C-j>', 'Window focus down', '<C-w><C-j>')
+nmap('<C-k>', 'Window focus up', '<C-w><C-k>')
+nmap('<C-l>', 'Window focus right', '<C-w><C-l>')
+nmap('aj', 'Break line at cursor', 'i<CR><ESC>')
+nmap('<C-c>', 'Hide search highlight', '<CMD>nohlsearch<CR>')
+imap('<Tab>', 'Next completion', function() return prev_ws() and '<Tab>' or '<C-n>' end, { expr = true })
+imap('<S-Tab>', 'Previous completion', '<C-p>')
+nmap('<leader>X', 'Destroy buffer', '<CMD>bd<CR>')
+nmap('<leader>M', 'Messages', '<CMD>messages<CR>')
+nmap('<leader>R', 'Redraw', '<CMD>redraw!<CR>')
+nmap('<C-t><C-t>', 'New', '<Cmd>tabnew<CR>')
+nmap('<C-t><C-x>', 'Close', '<Cmd>tabclose<CR>')
+nmap('<C-t><C-o>', 'Close others', '<Cmd>tabonly<CR>')
+nmap('<C-t><C-l>', 'Next', '<Cmd>tabnext<CR>')
+nmap('<C-t><C-h>', 'Previous', '<Cmd>tabprevious<CR>')
+nmap('<C-t>1', 'Goto tab 1', '<Cmd>1tabnext<CR>')
+nmap('<C-t>2', 'Goto tab 2', '<Cmd>2tabnext<CR>')
+nmap('<C-t>3', 'Goto tab 3', '<Cmd>3tabnext<CR>')
+nmap('<C-t>4', 'Goto tab 4', '<Cmd>4tabnext<CR>')
+nmap('<C-t>5', 'Goto tab 5', '<Cmd>5tabnext<CR>')
+nmap('<C-t>6', 'Goto tab 6', '<Cmd>6tabnext<CR>')
+nmap('<C-t>7', 'Goto tab 7', '<Cmd>7tabnext<CR>')
+nmap('<C-t>8', 'Goto tab 8', '<Cmd>8tabnext<CR>')
+nmap('<C-t>9', 'Goto tab 9', '<Cmd>9tabnext<CR>')
+nmap('<C-t>>', 'Move right', '<Cmd>+tabmove<CR>')
+nmap('<C-t><', 'Move left', '<Cmd>-tabmove<CR>')
 -- }}}
 
 --------------------------------------------------------------------------------
