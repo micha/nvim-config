@@ -97,7 +97,7 @@ set("Title", { fg = p.cyan_hot, bold = true })
 set("Directory", { fg = p.cyan })
 
 -- Code stays nearly monochrome; hue is reserved for editor state.
-set("Comment", { fg = p.mono_5 })
+set("Comment", { fg = p.mono_4 })
 set("Constant", { fg = p.mono_3 })
 set("String", { fg = p.mono_4 })
 set("Character", { fg = p.mono_4 })
