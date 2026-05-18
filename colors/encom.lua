@@ -35,6 +35,10 @@ local p = {
   search_fg = "#FFE7A3",
   separator = "#123F49",
   border_fg = "#D5F6F7",
+
+  diff_bg_add = "#062018",
+  diff_bg_change = "#1F1806",
+  diff_bg_delete = "#220808",
 }
 
 -- Core editor chrome
@@ -54,7 +58,7 @@ set("CursorLine", { bg = p.bg_soft })
 set("CursorColumn", { bg = p.bg_soft })
 pcall(set, "ColorColumn", { bg = p.bg })
 set("LineNr", { fg = p.mono_5 })
-set("CursorLineNr", { fg = p.cyan, bold = true })
+set("CursorLineNr", { fg = p.border_fg, bold = true })
 set("SignColumn", { bg = p.bg })
 set("FoldColumn", { fg = p.mono_5, bg = p.bg })
 set("Folded", { fg = p.mono_4, bg = p.bg_alt })
@@ -64,8 +68,8 @@ set("VisualNOS", { bg = p.selection })
 set("Search", { fg = p.search_fg, bg = p.search_bg })
 set("IncSearch", { fg = p.bg, bg = p.cyan_hot })
 set("CurSearch", { fg = p.bg, bg = p.cyan_hot })
-set("Substitute", { fg = p.bg, bg = p.orange })
-set("MatchParen", { fg = p.cyan_hot, bg = p.bg_lift, bold = true })
+set("Substitute", { fg = p.red, bg = p.diff_bg_delete })
+set("MatchParen", { fg = p.red, bg = p.diff_bg_delete, bold = true })
 
 set("Pmenu", { fg = p.mono_2, bg = p.bg_alt })
 set("PmenuBorder", { fg = p.border_fg, bg = p.bg_alt })
@@ -93,13 +97,13 @@ set("Title", { fg = p.cyan_hot, bold = true })
 set("Directory", { fg = p.cyan })
 
 -- Code stays nearly monochrome; hue is reserved for editor state.
-set("Comment", { fg = p.mono_4, italic = true })
+set("Comment", { fg = p.mono_5 })
 set("Constant", { fg = p.mono_3 })
-set("String", { fg = p.mono_3 })
-set("Character", { fg = p.mono_3 })
-set("Number", { fg = p.mono_3 })
-set("Boolean", { fg = p.mono_3 })
-set("Float", { fg = p.mono_3 })
+set("String", { fg = p.mono_4 })
+set("Character", { fg = p.mono_4 })
+set("Number", { fg = p.mono_4 })
+set("Boolean", { fg = p.mono_4 })
+set("Float", { fg = p.mono_4 })
 set("Identifier", { fg = p.mono_2 })
 set("Function", { fg = p.mono_2 })
 set("Statement", { fg = p.mono_1 })
@@ -147,9 +151,9 @@ set("DiagnosticVirtualTextHint", { fg = p.blue, bg = p.bg_alt })
 set("Added", { fg = p.green })
 set("Changed", { fg = p.amber })
 set("Removed", { fg = p.red })
-set("DiffAdd", { fg = p.green, bg = "#062018" })
-set("DiffChange", { fg = p.amber, bg = "#1F1806" })
-set("DiffDelete", { fg = p.red, bg = "#220808" })
+set("DiffAdd", { fg = p.green, bg = p.diff_bg_add })
+set("DiffChange", { fg = p.amber, bg = p.diff_bg_change })
+set("DiffDelete", { fg = p.red, bg = p.diff_bg_delete })
 set("DiffText", { fg = p.cyan_hot, bg = p.selection })
 set("GitSignsAdd", { fg = p.green })
 set("GitSignsChange", { fg = p.amber })
@@ -175,6 +179,13 @@ set("WhichKey", { fg = p.cyan })
 set("WhichKeyDesc", { fg = p.mono_2 })
 set("WhichKeyGroup", { fg = p.blue })
 set("WhichKeyBorder", { fg = p.border_fg })
+
+vim.api.nvim_create_autocmd({ "TabNew", "ColorScheme" }, {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_set_hl(0, "lualine_a_tabs_inactive", { link = "DiffText" })
+  end,
+})
 
 -- Tree-sitter captures
 set("@comment", { link = "Comment" })
