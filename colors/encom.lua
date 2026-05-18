@@ -11,32 +11,32 @@ local function set(group, opts)
 end
 
 local p = {
-  bg = "#030607",
-  bg_alt = "#071013",
-  bg_soft = "#0B171B",
-  bg_lift = "#10232A",
+  bg = "#020508",
+  bg_alt = "#060D14",
+  bg_soft = "#0A1420",
+  bg_lift = "#0D2030",
 
-  mono_1 = "#D5F6F7",
-  mono_2 = "#B8D7DA",
-  mono_3 = "#8FB2B8",
-  mono_4 = "#5F7F86",
-  mono_5 = "#304A50",
+  mono_1 = "#D7F3FF",
+  mono_2 = "#B4D8E8",
+  mono_3 = "#86AFC4",
+  mono_4 = "#557889",
+  mono_5 = "#2B4656",
 
-  cyan = "#00E6FF",
-  cyan_hot = "#7CFAFF",
+  cyan = "#00C8FF",
+  cyan_hot = "#6DEBFF",
   blue = "#147CFF",
   amber = "#FFB84A",
   orange = "#FF6A1A",
   red = "#FF2F2F",
   green = "#52FF9F",
 
-  selection = "#102A33",
+  selection = "#0D2638",
   search_bg = "#3B2A08",
   search_fg = "#FFE7A3",
-  separator = "#123F49",
-  border_fg = "#D5F6F7",
+  separator = "#103A52",
+  border_fg = "#D7F3FF",
 
-  diff_bg_add = "#062018",
+  diff_bg_add = "#061B20",
   diff_bg_change = "#1F1806",
   diff_bg_delete = "#220808",
 }
