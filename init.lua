@@ -40,28 +40,43 @@ local function vselected()
   return table.concat(region, "\n")
 end
 
-local group                       = vim.api.nvim_create_augroup('MyGroup', { clear = true })
+local function toggle_opt_value(opt, value)
+  if vim.tbl_contains(vim.opt[opt]:get(), value) then
+    vim.opt[opt]:remove(value)
+    print(opt .. ': removed ' .. value)
+  else
+    vim.opt[opt]:append(value)
+    print(opt .. ': appended ' .. value)
+  end
+end
 
-local autocmd                     = function(event, desc, callback)
+local group = vim.api.nvim_create_augroup('MyGroup', { clear = true })
+
+local autocmd = function(event, desc, pattern, callback)
+  if not callback then
+    callback = pattern
+    pattern = nil
+  end
   vim.api.nvim_create_autocmd(event, {
     group = group,
     desc = desc,
+    pattern = pattern,
     callback = callback,
   })
 end
 
-local map                         = function(mode)
+local map = function(mode)
   return function(lhs, desc, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, default({ desc = desc, remap = false, silent = true }, opts or {}))
   end
 end
 
-local imap                        = map('i')
-local nmap                        = map('n')
-local tmap                        = map('t')
-local vmap                        = map('v')
+local imap = map('i')
+local nmap = map('n')
+local tmap = map('t')
+local vmap = map('v')
 
-local plugin                      = function(...)
+local plugin = function(...)
   local args = { n = select("#", ...), ... }
   local repo = args[1]
   local spec = {}
@@ -100,96 +115,100 @@ end
 --------------------------------------------------------------------------------
 
 -- {{{
-vim.g.mapleader                   = ' '      -- must define before plugins are loaded
-vim.g.maplocalleader              = ','      -- must define before plugins are loaded
-vim.g.omni_sql_default_compl_type = 'syntax' -- otherwise need dbext plugin
+vim.g.mapleader                   = ' '       -- must define before plugins are loaded
+vim.g.maplocalleader              = ','       -- must define before plugins are loaded
+vim.g.omni_sql_default_compl_type = 'syntax'  -- otherwise need dbext plugin
+
+vim.opt.termguicolors             = true
+vim.opt.background                = 'dark'
+vim.opt.number                    = true
+vim.opt.relativenumber            = true
+vim.opt.cursorline                = true
+vim.opt.cursorcolumn              = true
+vim.opt.cursorlineopt             = { 'number', 'screenline' }
+vim.opt.wrap                      = false
+vim.opt.scrolloff                 = 10
+vim.opt.sidescrolloff             = 10
+
+vim.opt.tabstop                   = 2
+vim.opt.shiftwidth                = 2
+vim.opt.softtabstop               = 2
+vim.opt.expandtab                 = true
+vim.opt.smartindent               = true
+vim.opt.autoindent                = true
+
+vim.opt.ignorecase                = true
+vim.opt.smartcase                 = true
+vim.opt.hlsearch                  = true
+vim.opt.incsearch                 = true
+
+vim.opt.signcolumn                = "yes"
+vim.opt.colorcolumn               = "80"
+vim.opt.showmatch                 = true
+vim.opt.cmdheight                 = 0
 
 
-vim.opt.termguicolors  = true   -- terminal has full color support
-vim.opt.background     = 'dark' -- dark mode
+vim.opt.pumblend                  = 0
+vim.opt.pumborder                 = 'rounded'
+vim.opt.winblend                  = 0
+vim.opt.winborder                 = 'rounded'
 
-vim.opt.number         = true   -- line number
-vim.opt.relativenumber = true   -- relative line numbers
-vim.opt.cursorline     = true   -- highlight current line
-vim.opt.wrap           = false  -- do not wrap lines by default
-vim.opt.scrolloff      = 10     -- keep 10 lines above/below cursor
-vim.opt.sidescrolloff  = 10     -- keep 10 columns to left/right of cursor
 
-vim.opt.tabstop        = 2      -- tabwidth
-vim.opt.shiftwidth     = 2      -- indent width
-vim.opt.softtabstop    = 2      -- soft tab stop not tabs on tab/backspace
-vim.opt.expandtab      = true   -- use spaces instead of tabs
-vim.opt.smartindent    = true   -- smart auto-indent
-vim.opt.autoindent     = true   -- copy indent from current line
+vim.opt.lazyredraw                = true
+vim.opt.synmaxcol                 = 300
+vim.opt.fillchars                 = { eob = " " }
+vim.opt.showtabline               = 1
 
-vim.opt.ignorecase     = true   -- case insensitive search
-vim.opt.smartcase      = true   -- case sensitive if uppercase in string
-vim.opt.hlsearch       = true   -- highlight search matches
-vim.opt.incsearch      = true   -- show matches as you type
+vim.opt.list                      = true
+vim.opt.listchars                 = { tab = "» ", trail = "·", nbsp = "␣" }
 
-vim.opt.signcolumn     = "yes"  -- always show a sign column
-vim.opt.colorcolumn    = "80"   -- show a column at 100 position chars
-vim.opt.showmatch      = true   -- highlights matching brackets
-vim.opt.cmdheight      = 0      -- single line command line
--- vim.opt.showmode            = false -- do not show the mode, instead have it in statusline
--- vim.opt.pumheight           = 10 -- popup menu height
-vim.opt.pumblend       = 0         -- popup menu transparency
-vim.opt.pumborder      = 'rounded' -- popup menu border
-vim.opt.winblend       = 0         -- floating window transparency
-vim.opt.winborder      = 'rounded'
--- vim.opt.conceallevel        = 2 -- obsidian requirement
--- vim.opt.concealcursor       = "" -- do not hide cursorline in markup
-vim.opt.lazyredraw     = true -- do not redraw during macros
-vim.opt.synmaxcol      = 300 -- syntax highlighting limit
-vim.opt.fillchars      = { eob = " " } -- hide "~" on empty lines
-vim.opt.showtabline    = 1 -- only show tabline when there are 2+ tabs
+vim.opt.backup                    = false
+vim.opt.writebackup               = false
+vim.opt.swapfile                  = false
+vim.opt.undofile                  = true
+vim.opt.updatetime                = 300
+vim.opt.timeoutlen                = 500
 
-vim.opt.list           = true -- show special characters (tabs, trailing whitespace, and non-breaking spaces)
-vim.opt.listchars      = { tab = "» ", trail = "·", nbsp = "␣" } -- use these characters for list chars
+vim.opt.autoread                  = true
+vim.opt.autowrite                 = false
+vim.opt.sessionoptions            = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.opt.diffopt                   = "internal,filler,closeoff,indent-heuristic,inline:char,linematch:60,iwhiteall"
 
-vim.opt.backup         = false -- do not create a backup file
-vim.opt.writebackup    = false -- do not write to a backup file
-vim.opt.swapfile       = false -- do not create a swapfile
-vim.opt.undofile       = true -- do create an undo file
-vim.opt.updatetime     = 300 -- faster completion
-vim.opt.timeoutlen     = 500 -- timeout duration
--- vim.opt.ttimeoutlen         = 50 -- key code timeout
-vim.opt.autoread       = true -- auto-reload changes if outside of neovim
-vim.opt.autowrite      = false -- do not auto-save
-vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.opt.hidden                    = true
+vim.opt.errorbells                = false
+vim.opt.backspace                 = "indent,eol,start"
+vim.opt.autochdir                 = false
+vim.opt.iskeyword:append("-")
+vim.opt.path:append("**")
+vim.opt.selection                 = "inclusive"
+vim.opt.mouse                     = "a"
+vim.opt.modifiable                = true
+vim.opt.encoding                  = "utf-8"
+vim.opt.spelllang                 = "en"
 
-vim.opt.hidden         = true                              -- allow hidden buffers
-vim.opt.errorbells     = false                             -- no error sounds
-vim.opt.backspace      = "indent,eol,start"                -- better backspace behaviour
-vim.opt.autochdir      = false                             -- do not autochange directories
-vim.opt.iskeyword:append("-")                              -- include - in words
-vim.opt.path:append("**")                                  -- include subdirs in search
-vim.opt.selection    = "inclusive"                         -- include last char in selection
-vim.opt.mouse        = "a"                                 -- enable mouse support
--- vim.opt.clipboard:append("unnamedplus") -- use system clipboard
-vim.opt.modifiable   = true                                -- allow buffer modifications
-vim.opt.encoding     = "utf-8"                             -- set encoding
-vim.opt.spelllang    = "en"                                -- do `:set spell!` to toggle spellchecking
+vim.opt.foldmethod                = "expr"
+vim.opt.foldexpr                  = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel                 = 99
 
-vim.opt.foldmethod   = "expr"                              -- use expression for folding
-vim.opt.foldexpr     = "v:lua.vim.treesitter.foldexpr()"   -- use treesitter for folding
-vim.opt.foldlevel    = 99                                  -- start with all folds open
+vim.opt.splitbelow                = true
+vim.opt.splitright                = true
 
-vim.opt.splitbelow   = true                                -- horizontal splits go below
-vim.opt.splitright   = true                                -- vertical splits go right
+vim.opt.wildmenu                  = true
+vim.opt.wildmode                  = "longest:full,full"
+vim.opt.autocomplete              = false
+vim.opt.completeopt               = "menuone,noinsert,noselect,preview"
 
-vim.opt.wildmenu     = true                                -- tab completion
-vim.opt.wildmode     = "longest:full,full"                 -- complete longest common match, full completion list, cycle through with Tab
-vim.opt.autocomplete = false                               -- automatically show completion dropdown while typing
-vim.opt.completeopt  = "menuone,noinsert,noselect,preview" -- completion options
--- vim.opt.complete:append('o') -- add omnicomplete source
 
-vim.opt.diffopt:append("linematch:60") -- improve diff display
-vim.opt.redrawtime    = 10000          -- increase neovim redraw tolerance
-vim.opt.maxmempattern = 20000          -- increase max memory
+vim.opt.redrawtime                = 10000
+vim.opt.maxmempattern             = 20000
 
 require('vim._core.ui2').enable({
-  msg = { targets = 'msg' },
+  msg = {
+    targets = {
+      bufwrite = 'msg',
+      undo = 'msg',
+    }
+  },
 })
 
 local non_edit_file_types = {
@@ -223,12 +242,13 @@ plugin('folke/tokyonight.nvim', function(m)
       colors.bg_statusline = colors.none
     end,
   })
-  vim.cmd.colorscheme('tokyonight-night')
-  vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#1a1b26" })
-  vim.api.nvim_set_hl(0, "Folded", { bg = "#1a1b26", fg = "#7aa2f7" })
-  vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#292e42" })
-  vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { fg = "#565f89" })
-  vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#292e42" })
+  autocmd('ColorScheme', 'set tokyonight highlights', 'tokyonight*', function()
+    vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#1a1b26" })
+    vim.api.nvim_set_hl(0, "Folded", { bg = "#1a1b26", fg = "#7aa2f7" })
+    vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#292e42" })
+    vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { fg = "#565f89" })
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#292e42" })
+  end)
 end)
 
 -- }}}
@@ -244,6 +264,7 @@ plugin('folke/which-key.nvim', function(m)
       { '<leader>g',  group = 'Git' },
       { '<leader>gh', group = 'Hunk' },
       { '<leader>l',  group = 'LSP' },
+      { '<leader>s',  group = 'Session' },
       { '<C-t>',      group = 'Tab' },
       { 'gr',         group = 'LSP' },
     }
@@ -269,6 +290,7 @@ plugin('nvim-treesitter/nvim-treesitter', {}, function(m)
     'janet_simple',
     'javascript',
     'json',
+    'kdl',
     'latex',
     'lua',
     'luadoc',
@@ -333,6 +355,7 @@ plugin('ibhagwan/fzf-lua', function(m)
     buffers = { ignore_current_buffer = true },
     files = { follow = true },
     previewers = { builtin = { treesitter = { context = { max_lines = 0 } } } },
+    winopts = { backdrop = 100 },
   })
   nmap('<leader><leader>', 'Buffers', '<CMD>FzfLua buffers<CR>')
   nmap('<leader>fb', 'Builtins', '<CMD>FzfLua builtin<CR>')
@@ -376,11 +399,13 @@ end)
 
 plugin('neovim/nvim-lspconfig', function()
   vim.lsp.enable({
-    'clojure_lsp',
-    'coffeesense',
-    'lua_ls',
-    'ts_ls',
-    'pyright',
+    -- lspconfig                      mason
+    -- -----------------------------------------------
+    'clojure_lsp',    --    clojure-lsp
+    'coffeesense',    --    coffeesense-language-server
+    'lua_ls',         --    lua-language-server
+    'ts_ls',          --    typescript-language-server
+    'pyright',        --    pyright
   })
 
   autocmd('LspAttach', 'LSP keymaps', function(e)
@@ -432,7 +457,11 @@ end)
 -- }}}
 -- {{{ auto-session
 
-plugin 'rmagatti/auto-session'
+plugin('rmagatti/auto-session', {}, function()
+  nmap('<leader>sd', 'Delete',  '<CMD>AutoSession delete<CR>')
+  nmap('<leader>sr', 'Restore', '<CMD>AutoSession restore<CR>')
+  nmap('<leader>ss', 'Save',    '<CMD>AutoSession save<CR>')
+end)
 
 -- }}}
 -- {{{ lazygit.nvim
@@ -490,8 +519,6 @@ plugin('nvim-lualine/lualine.nvim', function(m)
         {
           "filename",
           newfile_status = true,
-          path = 1,
-          shorting_target = 40,
         },
       },
       lualine_x = {
@@ -521,8 +548,6 @@ plugin('nvim-lualine/lualine.nvim', function(m)
         {
           "filename",
           newfile_status = true,
-          path = 1,
-          shorting_target = 40,
         },
       },
       lualine_x = { "location" },
@@ -549,7 +574,6 @@ plugin('lewis6991/gitsigns.nvim', function(m)
     signs_staged = signs,
     current_line_blame = true,
     current_line_blame_opts = { delay = 250, ignore_whitespace = true },
-    numhl = true,
   })
 
   nmap(']h', 'Next hunk', function() m.nav_hunk('next') end)
@@ -560,6 +584,7 @@ plugin('lewis6991/gitsigns.nvim', function(m)
   nmap('<leader>gb', 'Toggle blame line', function() m.toggle_current_line_blame() end)
   nmap('<leader>gB', 'Blame line full', function() m.blame_line({ full = true }) end)
   nmap('<leader>gd', 'Diff view', '<CMD>DiffviewOpen<CR>')
+  nmap('<leader>gw', 'Toggle whitespace', function() toggle_opt_value('diffopt', 'iwhiteall') end)
 end)
 
 -- }}}
@@ -650,9 +675,20 @@ plugin('tpope/vim-sexp-mappings-for-regular-people')
 -- {{{ diffview.nvim
 
 plugin('sindrets/diffview.nvim', function(m)
-  m.setup({ use_icons = false })
+  m.setup({
+    use_icons = false,
+    enhanced_diff_hl = true,
+  })
 end)
 
+-- }}}
+
+--------------------------------------------------------------------------------
+--- COMMANDS
+--------------------------------------------------------------------------------
+
+-- {{
+vim.cmd.colorscheme('encom')
 -- }}}
 
 --------------------------------------------------------------------------------
@@ -668,6 +704,7 @@ nmap('<C-l>', 'Window focus right', '<C-w><C-l>')
 nmap('aj', 'Break line at cursor', 'i<CR><ESC>')
 nmap('<C-c>', 'Hide search highlight', '<CMD>nohlsearch<CR>')
 imap('<Tab>', 'Next completion', function() return prev_ws() and '<Tab>' or '<C-n>' end, { expr = true })
+imap('<CR>', 'Accept completion', function() return vim.fn.pumvisible() == 0 and '<CR>' or '<C-y>' end, { expr = true })
 imap('<S-Tab>', 'Previous completion', '<C-p>')
 nmap('<leader>X', 'Destroy buffer', '<CMD>bd<CR>')
 nmap('<leader>M', 'Messages', '<CMD>messages<CR>')
@@ -697,6 +734,12 @@ nmap('<C-t><', 'Move left', '<Cmd>-tabmove<CR>')
 -- {{{
 autocmd('TextYankPost', 'Highlight yanked text', function()
   vim.highlight.on_yank()
+end)
+
+-- Jump to next help tag (link) with <Tab> in help files
+autocmd('FileType', 'Jump to next/previous link in help', 'help', function()
+  nmap('<Tab>',     'Next link',      '/|.\\{-}|<CR>', { buffer = true })
+  nmap('<S-Tab>',   'Previous link',  '?|.\\{-}|<CR>', { buffer = true })
 end)
 -- }}}
 
