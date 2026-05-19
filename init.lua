@@ -3,12 +3,12 @@
 --------------------------------------------------------------------------------
 
 -- {{{
-local default = function(t1, t2)
+local function default(t1, t2)
   for k, v in pairs(t2) do t1[k] = v end
   return t1
 end
 
-local has = function(haystack, needle)
+local function has(haystack, needle)
   for _, value in ipairs(haystack) do
     if value == needle then
       return true
@@ -16,7 +16,7 @@ local has = function(haystack, needle)
   end
 end
 
-local remove = function(xs, x)
+local function remove(xs, x)
   local result = {}
   for i = 1, #xs do
     if xs[i] ~= x then table.insert(result, xs[i]) end
@@ -24,7 +24,7 @@ local remove = function(xs, x)
   return result
 end
 
-local prev_ws = function()
+local function prev_ws()
   local col = vim.api.nvim_win_get_cursor(0)[2]
   if col == 0 then return true end
   local line = vim.api.nvim_get_current_line()
@@ -52,7 +52,7 @@ end
 
 local group = vim.api.nvim_create_augroup('MyGroup', { clear = true })
 
-local autocmd = function(event, desc, pattern, callback)
+local function autocmd(event, desc, pattern, callback)
   if not callback then
     callback = pattern
     pattern = nil
@@ -65,7 +65,7 @@ local autocmd = function(event, desc, pattern, callback)
   })
 end
 
-local map = function(mode)
+local function map(mode)
   return function(lhs, desc, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, default({ desc = desc, remap = false, silent = true }, opts or {}))
   end
@@ -76,7 +76,7 @@ local nmap = map('n')
 local tmap = map('t')
 local vmap = map('v')
 
-local plugin = function(...)
+local function plugin(...)
   local args = { n = select("#", ...), ... }
   local repo = args[1]
   local spec = {}
@@ -217,6 +217,8 @@ local non_edit_file_types = {
   'nvim-undotree',
   'FTerm',
 }
+
+vim.cmd.colorscheme('encom')
 -- }}}
 
 --------------------------------------------------------------------------------
@@ -316,6 +318,16 @@ plugin 'nvim-treesitter/nvim-treesitter-context'
 
 plugin('ibhagwan/fzf-lua', function(m)
   m.setup({
+    -- fzf_colors = true,
+    fzf_colors = {
+      ["fg+"] = { "fg", { "Title" } },
+      ["bg+"] = { "bg", { "CursorLine" } },
+      ["hl"] = { "fg", { "DiffDelete" } },
+      ["hl+"] = { "fg", { "DiffDelete" } },
+      ["nth"] = "strip",
+      ["info"] = "-1",
+      ["nomatch"] = "-1",
+    },
     keymap = {
       builtin = {
         ["<F1>"]       = "toggle-help",
@@ -734,12 +746,6 @@ nmap('<C-t><', 'Move left', '<Cmd>-tabmove<CR>')
 -- {{{
 autocmd('TextYankPost', 'Highlight yanked text', function()
   vim.highlight.on_yank()
-end)
-
--- Jump to next help tag (link) with <Tab> in help files
-autocmd('FileType', 'Jump to next/previous link in help', 'help', function()
-  nmap('<Tab>',     'Next link',      '/|.\\{-}|<CR>', { buffer = true })
-  nmap('<S-Tab>',   'Previous link',  '?|.\\{-}|<CR>', { buffer = true })
 end)
 -- }}}
 

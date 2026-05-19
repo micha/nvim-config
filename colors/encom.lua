@@ -42,7 +42,7 @@ local p = {
 }
 
 -- Core editor chrome
-set("Normal", { fg = p.mono_2, bg = p.bg })
+set("Normal", { fg = p.mono_3, bg = p.bg })
 set("NormalNC", { fg = p.mono_3, bg = p.bg })
 set("NormalFloat", { fg = p.mono_2, bg = p.bg_alt })
 set("FloatBorder", { fg = p.border_fg, bg = p.bg_alt })
@@ -58,14 +58,14 @@ set("CursorLine", { bg = p.bg_soft })
 set("CursorColumn", { bg = p.bg_soft })
 pcall(set, "ColorColumn", { bg = p.bg })
 set("LineNr", { fg = p.mono_5 })
-set("CursorLineNr", { fg = p.border_fg, bold = true })
+set("CursorLineNr", { fg = p.cyan_hot, bold = true })
 set("SignColumn", { bg = p.bg })
 set("FoldColumn", { fg = p.mono_5, bg = p.bg })
 set("Folded", { fg = p.mono_4, bg = p.bg_alt })
 
 set("Visual", { bg = p.selection })
 set("VisualNOS", { bg = p.selection })
-set("Search", { fg = p.search_fg, bg = p.search_bg })
+set("Search", { fg = p.red, bg = p.diff_bg_delete })
 set("IncSearch", { fg = p.bg, bg = p.cyan_hot })
 set("CurSearch", { fg = p.bg, bg = p.cyan_hot })
 set("Substitute", { fg = p.red, bg = p.diff_bg_delete })
@@ -160,7 +160,7 @@ set("GitSignsChange", { fg = p.amber })
 set("GitSignsDelete", { fg = p.red })
 
 -- Common plugin groups
-set("MiniJump", { fg = p.search_fg, bg = p.search_bg })
+set("MiniJump", { fg = p.red, bg = p.diff_bg_delete })
 set("MiniJump2dSpot", { fg = p.bg, bg = p.cyan_hot, bold = true })
 set("MiniStatuslineModeNormal", { fg = p.bg, bg = p.cyan })
 set("MiniStatuslineModeInsert", { fg = p.bg, bg = p.green })
@@ -211,3 +211,5 @@ set("@type", { link = "Type" })
 set("@tag", { fg = p.mono_3 })
 set("@tag.attribute", { fg = p.mono_3 })
 set("@tag.delimiter", { fg = p.mono_4 })
+
+return p
