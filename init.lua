@@ -595,7 +595,6 @@ plugin('lewis6991/gitsigns.nvim', function(m)
   nmap('<leader>ghp', 'Preview', function() m.preview_hunk() end)
   nmap('<leader>gb', 'Toggle blame line', function() m.toggle_current_line_blame() end)
   nmap('<leader>gB', 'Blame line full', function() m.blame_line({ full = true }) end)
-  nmap('<leader>gd', 'Diff view', '<CMD>DiffviewOpen<CR>')
   nmap('<leader>gw', 'Toggle whitespace', function() toggle_opt_value('diffopt', 'iwhiteall') end)
 end)
 
@@ -691,6 +690,13 @@ plugin('sindrets/diffview.nvim', function(m)
     use_icons = false,
     enhanced_diff_hl = true,
   })
+  nmap('<leader>gd', 'Toggle diff view', function()
+    if require('diffview.lib').get_current_view() then
+      m.close()
+    else
+      vim.cmd('DiffviewOpen HEAD~' .. vim.v.count1)
+    end
+  end)
 end)
 
 -- }}}
