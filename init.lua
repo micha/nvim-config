@@ -156,7 +156,7 @@ vim.opt.winborder                 = 'rounded'
 
 vim.opt.lazyredraw                = true
 vim.opt.synmaxcol                 = 300
-vim.opt.fillchars                 = { eob = " " }
+vim.opt.fillchars                 = { eob = " ", diff = "╱" }
 vim.opt.showtabline               = 1
 
 vim.opt.list                      = true
@@ -698,6 +698,11 @@ plugin('sindrets/diffview.nvim', function(m)
     end
   end)
 end)
+
+-- }}}
+-- {{{ zen-mode.nvim
+
+plugin 'folke/zen-mode.nvim'
 
 -- }}}
 
